@@ -3,3 +3,5 @@ Logs/
 ProjectSettings/
 Temp/
 Packages/
+.vs/
+obj/
