@@ -8,54 +8,142 @@ public class battle_manager : MonoBehaviour
     //todo 一旦、個別のユニット単位のみ扱うので、分隊ごとの処理とかはあとでやる。
     //このクラスで処理を描写し、その描画はVEIE側に任せる。
 
-    private List<Aircraft> list_friend_aircraft;
-    private List<Ship> list_enemy_ships;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameObject.Find("OrgManager").GetComponent<Org_manager>();
     }
 
-    //戦闘処理。
-    public void Battle_System()
+
+
+    public void test_attack()
     {
-        //まず登場人物を確定させる。
-        
-        //処理ループ開始。
-        foreach( Aircraft aircraft in list_friend_aircraft )
+        StopAllCoroutines();
+
+        StartCoroutine("Corutin_battle_system");
+
+        Debug.Log("攻撃終了");
+    }
+
+    //コルーチンでウェイトを入れながら処理をかける。
+    IEnumerator Corutin_battle_system()
+    {
+        Debug.Log("処理開始");
+        yield return new WaitForSeconds(1);
+        //リストから使える機体だけを使う。
+        List<Aircraft> list_can_use = GameObject.Find("OrgManager").GetComponent<Org_manager>().List_friend_aircraft.FindAll(x => x.Flg_disabled != true);
+
+        if (list_can_use.Count > 0)
         {
-            //1 to do 攻撃態勢に入れるか否か。
-            //2 対空砲火判定
-            foreach (Ship ship in list_enemy_ships)
+            //処理ループ開始。
+            foreach (Aircraft aircraft in list_can_use)
             {
-                //弾幕対空攻撃を実施。
-                ship.Danamaku(aircraft);
+                //1まず登場人物を確定させる。そして表示する。
+                yield return new WaitForSeconds(1);
 
+                //2 攻撃対象を選定。
+                Ship tgt_ship = select_target();
+
+                UpdateBattleUI(aircraft, tgt_ship);
+                OFF_damageUI();
+
+                //3 対空砲火判定。敵艦隊が艦隊防空をかける。
+                foreach (Ship ship in GameObject.Find("OrgManager").GetComponent<Org_manager>().List_enemy_ships)
+                {
+                    //弾幕対空攻撃を実施。
+                    ship.Danamaku(aircraft);
+
+                    //対空攻撃されて滅んだら処理終了。
+                    if (aircraft.Current_durability <= 0)
+                    {
+                        //Debug.Log("しにました～～");
+                        //Destroy(aircraft);
+                        //機体の利用不可フラグ。
+                        aircraft.Flg_disabled = true;
+                        ON_damageUI();
+                        break;
+                    }
+
+                }
+
+                yield return new WaitForSeconds(3);
+
+                if (aircraft.Flg_disabled != true)
+                {
+                    //4 攻撃実施。
+                    aircraft.Attack_troped(tgt_ship);
+
+                }
+                
+                //5処理終了。
+                UpdateBattleUI(aircraft, tgt_ship);
+                
             }
-            //3 攻撃対象を選定。
+        }
+        else
+        {
+            Debug.Log("もう航空機がいないです。");
+            Logging("もう航空機がいないです。");
 
-            Ship tgt_ship = select_target();
-
-            //4 攻撃実施。
-            aircraft.Attack_troped(tgt_ship);
-
-               
         }
 
-    } 
+    }
+
+
+
 
     //攻撃対象選定。対象船舶が帰ってくる。もうちょっとまともなアルゴリズムをあとで書く。
     public Ship select_target()
     {
 
-        return list_enemy_ships[0];
+        return GameObject.Find("OrgManager").GetComponent<Org_manager>().List_enemy_ships[0];
     }
+
+
+    //表示切り替え。
+    public void UpdateBattleUI(Aircraft aircraft, Ship ship)
+    {
+        GameObject panel = GameObject.Find("Panel_battle");
+        panel.GetComponent<View_Battle>().updateUI(aircraft, ship);
+
+    }
+
+    //表示切り替え。
+    public void ON_damageUI()
+    {
+        GameObject panel = GameObject.Find("Panel_battle");
+        panel.GetComponent<View_Battle>().upadate_damage_ui_enable();
+
+    }
+
+    //表示切り替え。
+    public void OFF_damageUI()
+    {
+        GameObject panel = GameObject.Find("Panel_battle");
+        panel.GetComponent<View_Battle>().upadate_damage_ui_disable();
+
+    }
+
 
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
+
+    //ロギング系の関数。
+    public void Logging(string out_put)
+    {
+        // CubeプレハブをGameObject型で取得
+        GameObject log_unit = (GameObject)Resources.Load("Prefabs/Panel");
+
+        GameObject test1 = Instantiate(log_unit, GameObject.Find("Content_log").transform);
+
+        test1.GetComponent<test_base>().textupdate(out_put);
+
+    }
+
 }

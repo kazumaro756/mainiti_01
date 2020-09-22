@@ -64,9 +64,14 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Aircraft.cs" />
     <Compile Include="Assets\Scripts\battle_manager.cs" />
+    <Compile Include="Assets\Scripts\Naval_Manager.cs" />
+    <Compile Include="Assets\Scripts\Org_manager.cs" />
+    <Compile Include="Assets\Scripts\pilot_pnael_ui_manager.cs" />
+    <Compile Include="Assets\Scripts\root_info_manager.cs" />
     <Compile Include="Assets\Scripts\Ship.cs" />
     <Compile Include="Assets\Scripts\test_base.cs" />
     <Compile Include="Assets\Scripts\Unit.cs" />
+    <Compile Include="Assets\Scripts\View_Battle.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/kazuma/Desktop/mainiti_01/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
@@ -93,6 +98,9 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/kazuma/Desktop/mainiti_01/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Coffee.UIParticle">
+      <HintPath>C:/Users/kazuma/Desktop/mainiti_01/Library/ScriptAssemblies/Coffee.UIParticle.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.15f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

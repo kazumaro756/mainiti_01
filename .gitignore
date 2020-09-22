@@ -5,3 +5,8 @@ Temp/
 Packages/
 .vs/
 obj/
+*.csproj
+*.meta
+*.mp3
+*.png
+*.jpg

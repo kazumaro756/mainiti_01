@@ -24,15 +24,23 @@ public class Ship : MonoBehaviour
     public string Unit_name { get => unit_name; set => unit_name = value; }
 
 
+    //コンストラクタ
+    public Ship(string con_unit_name , int con_max_dura,int con_cure_dura)
+    {
+        unit_name = con_unit_name;
+        max_durability = con_max_dura;
+        current_durability = con_cure_dura;
+
+    }
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        Unit_name = "飛竜";
-        Max_Durability = 20000;
-        Current_durability = 20000;
+        //Unit_name = "飛龍";
+        //Max_Durability = 20000;
+        //Current_durability = 20000;
 
     }
 
@@ -50,17 +58,17 @@ public class Ship : MonoBehaviour
     public void Danamaku(Aircraft tgt_aircraft)
     {
         //命中率
-        if (Random.Range(1.0f, 100.0f) < 10)
+        if (Random.Range(1.0f, 100.0f) < 90)
         {
 
-            tgt_aircraft.Current_durability -= 4;
+            tgt_aircraft.Current_durability -= 200;
             //Debug.Log("HIT");
-            Logging("HIT\n対空攻撃は成功しました。");
+            Logging(unit_name + "HIT\n対空攻撃は成功しました。");
         }
         else
         {
             // Debug.Log("NO HIT");
-            Logging("NO HIT\n対空攻撃は失敗しました。");
+            Logging(unit_name + "NO HIT\n対空攻撃は失敗しました。");
         }
 
 

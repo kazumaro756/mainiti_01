@@ -15,22 +15,33 @@ public class Aircraft : MonoBehaviour
     Slider slider_durability;
 
     private string unit_name;
+    private string pilot_name;
     private int max_durability;
     private int current_durability;
-
+    private bool flg_disabled;
+    private bool flg_destroyed;
 
     public int Max_Durability { get => max_durability; set => max_durability = value; }
     public int Current_durability { get => current_durability; set => current_durability = value; }
     public string Unit_name { get => unit_name; set => unit_name = value; }
+    public bool Flg_disabled { get => flg_disabled; set => flg_disabled = value; }
+    public bool Flg_destroyed { get => flg_destroyed; set => flg_destroyed = value; }
+    public string Pilot_name { get => pilot_name; set => pilot_name = value; }
 
+    public Aircraft(string con_unit_name, string con_pilot_name, int con_max_dura, int con_current_dura, bool con_dis,bool con_des)
+    {
+        unit_name = con_unit_name;
+        pilot_name = con_pilot_name;
+        max_durability = con_max_dura;
+        current_durability = con_current_dura;
+        flg_disabled = con_dis;
+        flg_destroyed = con_des;
 
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        Unit_name = "天山";
-        Max_Durability = 4;
-        Current_durability = 4;
 
 
     }
@@ -50,12 +61,12 @@ public class Aircraft : MonoBehaviour
 
             tgt_ship.Current_durability -= 2000;
             //Debug.Log("HIT");
-            Logging("HIT\n攻撃は成功しました。");
+            Logging(pilot_name + "HIT\n攻撃は成功しました。");
         }
         else
         {
            // Debug.Log("NO HIT");
-            Logging("NO HIT\n攻撃は失敗しました。");
+            Logging(pilot_name + "NO HIT\n攻撃は失敗しました。");
         }
 
     }
