@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class pilot_pnael_ui_manager : MonoBehaviour
 {
     [SerializeField]
-    Text text_pilot_name,text_unit_name,text_unit_status;
+    Text text_pilot_name,text_unit_name,text_unit_status,text_unit_pilot;
 
     private int pilot_id;
 
@@ -38,26 +38,44 @@ public class pilot_pnael_ui_manager : MonoBehaviour
 
 
         //UI更新。
-        Update_ui(og.GetComponent<Org_manager>().List_friend_aircraft[pilot_id].Pilot_name, og.GetComponent<Org_manager>().List_friend_aircraft[pilot_id].Unit_name, og.GetComponent<Org_manager>().List_friend_aircraft[pilot_id].Flg_disabled);
+        Update_ui(og.GetComponent<Org_manager>().List_friend_aircraft[pilot_id].Pilot_name
+            , og.GetComponent<Org_manager>().List_friend_aircraft[pilot_id].Unit_name
+            , og.GetComponent<Org_manager>().List_friend_aircraft[pilot_id].Flg_disabled
+            , og.GetComponent<Org_manager>().List_friend_aircraft[pilot_id].Pilot_exp
+            );
     }
 
 
     //updateui 生成するときに呼ばれる。
-    public void Update_ui(string pilot_name, string unit_name, bool status)
+    public void Update_ui(string pilot_name, string unit_name, bool status,int pilot_exp)
     {
         text_pilot_name.text = pilot_name;
         text_unit_name.text = unit_name;
+        text_unit_pilot.text = pilot_exp.ToString();
 
         //破壊フラグがtrueなら
         if (status)
         {
             text_unit_status.text = "損壊";
+            Make_color_red();
         }
         else
         {
             text_unit_status.text = "健全";
+            Make_color_white();
         }
 
+    }
+
+
+    public void Make_color_red()
+    {
+        this.GetComponent<Image>().color = Color.red;
+    }
+
+    public void Make_color_white()
+    {
+        this.GetComponent<Image>().color = Color.white;
     }
 
 }

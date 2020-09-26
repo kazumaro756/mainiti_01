@@ -30,8 +30,15 @@ public class battle_manager : MonoBehaviour
     //コルーチンでウェイトを入れながら処理をかける。
     IEnumerator Corutin_battle_system()
     {
+        //最終的な処理結果を表示するためのものだよ。
+        int num_sanka = 0;
+        int num_can_Attack = 0;
+        int num_sucees_attack = 0;
+
+
+
         Debug.Log("処理開始");
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0);
         //リストから使える機体だけを使う。
         List<Aircraft> list_can_use = GameObject.Find("OrgManager").GetComponent<Org_manager>().List_friend_aircraft.FindAll(x => x.Flg_disabled != true);
 
@@ -40,8 +47,11 @@ public class battle_manager : MonoBehaviour
             //処理ループ開始。
             foreach (Aircraft aircraft in list_can_use)
             {
+                //0参加人数を増やす。
+                num_sanka += 1;
+
                 //1まず登場人物を確定させる。そして表示する。
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(0.1f);
 
                 //2 攻撃対象を選定。
                 Ship tgt_ship = select_target();
@@ -58,6 +68,8 @@ public class battle_manager : MonoBehaviour
                     //対空攻撃されて滅んだら処理終了。
                     if (aircraft.Current_durability <= 0)
                     {
+                        aircraft.Pilot_exp += 10;
+
                         //Debug.Log("しにました～～");
                         //Destroy(aircraft);
                         //機体の利用不可フラグ。
@@ -68,12 +80,27 @@ public class battle_manager : MonoBehaviour
 
                 }
 
-                yield return new WaitForSeconds(3);
+                yield return new WaitForSeconds(0);
 
                 if (aircraft.Flg_disabled != true)
                 {
+                    //攻撃を実施。
+                    num_can_Attack += 1;
+
                     //4 攻撃実施。
-                    aircraft.Attack_troped(tgt_ship);
+                    if (aircraft.Attack_troped(tgt_ship))
+                    {
+                        num_sucees_attack += 1;
+                        
+                        //攻撃ができさえしたら＋３０。
+                        aircraft.Pilot_exp += 60;
+                    }
+                    else
+                    {
+                        //攻撃はうまくいかなかったけど攻撃はした。
+                        aircraft.Pilot_exp += 25;
+
+                    }
 
                 }
                 
@@ -89,9 +116,11 @@ public class battle_manager : MonoBehaviour
 
         }
 
+
+        Debug.Log(num_sanka + "参加航空兵力" );
+        Debug.Log(num_can_Attack + "攻撃態勢に入った人");
+        Debug.Log(num_sucees_attack + "攻撃成功");
     }
-
-
 
 
     //攻撃対象選定。対象船舶が帰ってくる。もうちょっとまともなアルゴリズムをあとで書く。
@@ -125,8 +154,6 @@ public class battle_manager : MonoBehaviour
         panel.GetComponent<View_Battle>().upadate_damage_ui_disable();
 
     }
-
-
 
     // Update is called once per frame
     void Update()

@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Naval_Manager : MonoBehaviour
 {
 
+    [SerializeField]
+    Text txt1;
     //Org_manager og;
 
 
@@ -19,6 +22,7 @@ public class Naval_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Ui_text_update();
         //deploy_pilots();
     }
 
@@ -28,10 +32,18 @@ public class Naval_Manager : MonoBehaviour
 
     }
 
+    public void Ui_text_update()
+    {
+        txt1.text = og().Num_Tensan_Stock1.ToString();
+    }
+
+
     //表示用。
     public void Deploy_pilots()
     {
         int i=0;
+
+        
 
         //配下
         foreach (Transform n in GameObject.Find("Content_pilot_list").transform)
@@ -54,7 +66,7 @@ public class Naval_Manager : MonoBehaviour
 
             //
             //UI更新
-            p1.GetComponent<pilot_pnael_ui_manager>().Update_ui(ac.Pilot_name, ac.Unit_name, ac.Flg_disabled);
+            p1.GetComponent<pilot_pnael_ui_manager>().Update_ui(ac.Pilot_name, ac.Unit_name, ac.Flg_disabled,ac.Pilot_exp);
 
             //インデックスを教えてあげる。
 
@@ -64,6 +76,8 @@ public class Naval_Manager : MonoBehaviour
             i += 1;
 
         }
+
+
 
 
 
