@@ -67,7 +67,8 @@ public class Aircraft : MonoBehaviour
     public bool Attack_troped(Ship tgt_ship )
     {
         //命中率
-        if (Random.Range(1.0f, 100.0f) < 25 ) {
+        if (Random.Range(1.0f, 100.0f) < 50 + (pilot_exp / 100) - (10))
+        {
 
             tgt_ship.Current_durability -= 2000;
             //Debug.Log("HIT");
@@ -87,7 +88,8 @@ public class Aircraft : MonoBehaviour
 
 
     }
-
+    
+    //攻撃オプションはまた別よね。
     public void Attack_enemy()
     {
         Attack_troped(GameObject.Find("Panel_friend_info").GetComponent<Ship>());

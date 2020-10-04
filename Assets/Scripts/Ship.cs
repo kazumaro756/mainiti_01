@@ -58,16 +58,17 @@ public class Ship : MonoBehaviour
     public void Danamaku(Aircraft tgt_aircraft)
     {
         //命中率
-        if (Random.Range(1.0f, 100.0f) < 90)
+        if (Random.Range(1.0f, 100.0f) < 50 +(10) -(tgt_aircraft.Pilot_exp/100)  )
         {
+            //
+          
 
             tgt_aircraft.Current_durability -= 200;
-            //Debug.Log("HIT");
+            
             Logging(unit_name + "HIT\n対空攻撃は成功しました。");
         }
         else
         {
-            // Debug.Log("NO HIT");
             Logging(unit_name + "NO HIT\n対空攻撃は失敗しました。");
         }
 

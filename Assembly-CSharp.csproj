@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\Naval_Manager.cs" />
     <Compile Include="Assets\Scripts\Org_manager.cs" />
     <Compile Include="Assets\Scripts\pilot_pnael_ui_manager.cs" />
+    <Compile Include="Assets\Scripts\Result_Ui_manger.cs" />
     <Compile Include="Assets\Scripts\root_info_manager.cs" />
     <Compile Include="Assets\Scripts\Ship.cs" />
     <Compile Include="Assets\Scripts\test_base.cs" />

@@ -8,7 +8,7 @@ public class battle_manager : MonoBehaviour
     //todo 一旦、個別のユニット単位のみ扱うので、分隊ごとの処理とかはあとでやる。
     //このクラスで処理を描写し、その描画はVEIE側に任せる。
 
-
+    
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +35,10 @@ public class battle_manager : MonoBehaviour
         int num_can_Attack = 0;
         int num_sucees_attack = 0;
 
-
+        //string化
+        string a;
+        string b;
+        string c;
 
         Debug.Log("処理開始");
         yield return new WaitForSeconds(0);
@@ -106,6 +109,7 @@ public class battle_manager : MonoBehaviour
                 
                 //5処理終了。
                 UpdateBattleUI(aircraft, tgt_ship);
+
                 
             }
         }
@@ -120,6 +124,18 @@ public class battle_manager : MonoBehaviour
         Debug.Log(num_sanka + "参加航空兵力" );
         Debug.Log(num_can_Attack + "攻撃態勢に入った人");
         Debug.Log(num_sucees_attack + "攻撃成功");
+
+        //6戦闘詳報の表示をする。
+        a = "今回の戦闘に参加したのは" + num_sanka + "機である";
+        b = "今回の戦闘において攻撃に参加できたのは" + num_can_Attack + "機である";
+        c = "今回の戦闘で攻撃を成功させたのは" + num_sucees_attack + "機である";
+
+
+        //uiを表示。
+        GameObject.Find("Panel_root_info").GetComponent<root_info_manager>().Result_panel_ui_activate();
+        //UIのっぷでーと。
+        GameObject.Find("Pane_Result").GetComponent<Result_Ui_manger>().Update_ui(a,b,c);
+        
     }
 
 
