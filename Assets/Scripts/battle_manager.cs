@@ -65,6 +65,7 @@ public class battle_manager : MonoBehaviour
                 //3 対空砲火判定。敵艦隊が艦隊防空をかける。
                 foreach (Ship ship in GameObject.Find("OrgManager").GetComponent<Org_manager>().List_enemy_ships)
                 {
+                    //この辺は武装のクラスを使う、という作りにした方がよかろう。
                     //弾幕対空攻撃を実施。
                     ship.Danamaku(aircraft);
 

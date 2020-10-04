@@ -62,16 +62,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Aircraft.cs" />
+    <Compile Include="Assets\Scripts\basic_class\Aircraft.cs" />
+    <Compile Include="Assets\Scripts\basic_class\Ship.cs" />
+    <Compile Include="Assets\Scripts\basic_class\Unit.cs" />
+    <Compile Include="Assets\Scripts\basic_class\Weapon.cs" />
     <Compile Include="Assets\Scripts\battle_manager.cs" />
+    <Compile Include="Assets\Scripts\Battle_Order.cs" />
+    <Compile Include="Assets\Scripts\Management.cs" />
     <Compile Include="Assets\Scripts\Naval_Manager.cs" />
     <Compile Include="Assets\Scripts\Org_manager.cs" />
     <Compile Include="Assets\Scripts\pilot_pnael_ui_manager.cs" />
     <Compile Include="Assets\Scripts\Result_Ui_manger.cs" />
     <Compile Include="Assets\Scripts\root_info_manager.cs" />
-    <Compile Include="Assets\Scripts\Ship.cs" />
     <Compile Include="Assets\Scripts\test_base.cs" />
-    <Compile Include="Assets\Scripts\Unit.cs" />
     <Compile Include="Assets\Scripts\View_Battle.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/kazuma/Desktop/mainiti_01/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
