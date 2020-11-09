@@ -12,6 +12,10 @@ public class root_info_manager : MonoBehaviour
     GameObject panel_result;
 
 
+    [SerializeField]
+    GameObject panel_provi;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +54,6 @@ public class root_info_manager : MonoBehaviour
         panel_result.SetActive(false);
     }
 
-
+    
 
 }

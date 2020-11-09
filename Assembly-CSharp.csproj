@@ -62,20 +62,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Base_Button_controller.cs" />
     <Compile Include="Assets\Scripts\basic_class\Aircraft.cs" />
     <Compile Include="Assets\Scripts\basic_class\Ship.cs" />
     <Compile Include="Assets\Scripts\basic_class\Unit.cs" />
     <Compile Include="Assets\Scripts\basic_class\Weapon.cs" />
     <Compile Include="Assets\Scripts\battle_manager.cs" />
     <Compile Include="Assets\Scripts\Battle_Order.cs" />
+    <Compile Include="Assets\Scripts\Battle_order_view.cs" />
+    <Compile Include="Assets\Scripts\common\exit_ui_panel.cs" />
     <Compile Include="Assets\Scripts\Management.cs" />
+    <Compile Include="Assets\Scripts\Map_Data.cs" />
     <Compile Include="Assets\Scripts\Naval_Manager.cs" />
     <Compile Include="Assets\Scripts\Org_manager.cs" />
     <Compile Include="Assets\Scripts\pilot_pnael_ui_manager.cs" />
     <Compile Include="Assets\Scripts\Result_Ui_manger.cs" />
     <Compile Include="Assets\Scripts\root_info_manager.cs" />
     <Compile Include="Assets\Scripts\test_base.cs" />
+    <Compile Include="Assets\Scripts\UI\CameraController.cs" />
+    <Compile Include="Assets\Scripts\UI\CameraMover.cs" />
+    <Compile Include="Assets\Scripts\UI\SceneViewCamera.cs" />
     <Compile Include="Assets\Scripts\View_Battle.cs" />
+    <Compile Include="Assets\Scripts\View_Province.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/kazuma/Desktop/mainiti_01/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

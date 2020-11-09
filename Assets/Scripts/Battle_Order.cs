@@ -10,26 +10,15 @@ public class Battle_Order : MonoBehaviour
 
     private bool tenkai_flg;
 
-    [SerializeField]
-    Text t;
+    //[SerializeField]
+    //Text t;
 
     // Start is called before the first frame update
     void Start()
     {
         tenkai_flg = false;
 
-        //a.Add(1);
-        //a.Add(2);
-        //a.Add(3);
-
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
 
     //統合的な2つの関数を表現している。
     public void Control_Children()
@@ -65,14 +54,12 @@ public class Battle_Order : MonoBehaviour
 
         //リストから取得してインスタンス化
 
-        //インスタンス化。
-        //GameObject p1 = Instantiate(pilot_unit1, this.transform.parent);
+
+
+
 
         //インスタンス化。
-        GameObject p2 = Instantiate(pilot_unit2, this.transform.parent);
-
-        //インスタンス化。
-        GameObject p3 = Instantiate(pilot_unit3, this.transform.parent);
+        //GameObject p3 = Instantiate(pilot_unit3, this.transform.parent);
 
         //インスタンス化。
         //GameObject p4 = Instantiate(pilot_unit4, this.transform.parent);
@@ -85,14 +72,29 @@ public class Battle_Order : MonoBehaviour
         //}
 
         //場所を変更。
-        p2.name = "aaaa";
-        p2.transform.SetSiblingIndex(this.transform.GetSiblingIndex() + 1);
-        p3.name = "bbbb";
-        p3.transform.SetSiblingIndex(this.transform.GetSiblingIndex() + 2);
+        //インスタンス化。
+        GameObject p1 = Instantiate(pilot_unit1, this.transform.parent);
+        p1.name = "aaaa";
+        p1.GetComponent<Battle_order_view>().update_view("第1戦隊");
+        p1.transform.SetSiblingIndex(this.transform.GetSiblingIndex() + 1);
+
+        //場所を変更。
+        //インスタンス化。
+        GameObject px = Instantiate(pilot_unit1, this.transform.parent);
+        px.name = "航空兵団";
+        px.GetComponent<Battle_order_view>().update_view("第3戦隊");
+        px.transform.SetSiblingIndex(this.transform.GetSiblingIndex() + 2);
+
+        //インスタンス化。
+        GameObject p2 = Instantiate(pilot_unit2, this.transform.parent);
+        p2.name = "bbbb";
+        p2.GetComponent<Battle_order_view>().update_view("第1航空戦隊");
+        p2.transform.SetSiblingIndex(this.transform.GetSiblingIndex() + 3);
 
 
     }
 
+    //出ていたものを外す。
     public void Close_Chirldren()
     {
        　//配下になっているチルドレンを破壊する。
