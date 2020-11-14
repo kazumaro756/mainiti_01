@@ -6,8 +6,8 @@
 [RequireComponent(typeof(Camera))]
 public class SceneViewCamera : MonoBehaviour
 {
-    [SerializeField, Range(0.1f, 100f)]
-    private float wheelSpeed = 50f;
+    [SerializeField]
+    private float wheelSpeed;
 
     [SerializeField, Range(0.1f, 100f)]
     private float moveSpeed = 50f;
@@ -16,6 +16,11 @@ public class SceneViewCamera : MonoBehaviour
     private float rotateSpeed = 50f;
 
     private Vector3 preMousePos;
+
+    private void Start()
+    {
+        wheelSpeed = 500f;
+    }
 
     private void Update()
     {

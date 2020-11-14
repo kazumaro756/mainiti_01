@@ -138,9 +138,15 @@ public class Map_Data : MonoBehaviour
 
         Province p2 = new Province(2, "ブルネイ", "イングランド王国", "南方軍", 6, 3, 5, 33, 600, 330,-205,77);
         CreateButton(p2);
-        //Province p3 = new Province(3, "3", "イングランド王国", "南方軍", 6, 3, 5, 33, 600, 330);
-        //Province p4 = new Province(4, "4", "イングランド王国", "南方軍", 6, 3, 5, 33, 600, 330);
-        //Province p5 = new Province(5, "5", "イングランド王国", "南方軍", 6, 3, 5, 33, 600, 330);
+
+        Province p3 = new Province(3, "パレンバン", "イングランド王国", "南方軍", 6, 3, 5, 33, 600, 330,-484,-135);
+        CreateButton(p3);
+
+        Province p4 = new Province(4, "バタビア", "イングランド王国", "南方軍", 6, 3, 5, 33, 600, 330,-391,-298);
+        CreateButton(p4);
+
+        Province p5 = new Province(5, "ダバオ", "イングランド王国", "南方軍", 6, 3, 5, 33, 600, 330,377,287);
+        CreateButton(p5);
         //Province p6 = new Province(6, "6", "イングランド王国", "南方軍", 6, 3, 5, 33, 600, 330);
         //Province p7 = new Province(7, "7", "イングランド王国", "南方軍", 6, 3, 5, 33, 600, 330);
         //Province p8 = new Province(8, "8", "イングランド王国", "南方軍", 6, 3, 5, 33, 600, 330);
@@ -149,7 +155,15 @@ public class Map_Data : MonoBehaviour
 
         list_province.Add(p1);
         list_province.Add(p2);
-        //list_province.Add(p4);
+        list_province.Add(p3);
+        list_province.Add(p4);
+        list_province.Add(p5);
+    }
+
+    public void Create_Province()
+    {
+        //クラスの作成
+
     }
 
 
