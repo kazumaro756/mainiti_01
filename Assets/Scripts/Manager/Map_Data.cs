@@ -86,30 +86,38 @@ public class Province
 
 }
 
-//プロヴィンスのUI。
-public class UI_Province
-    {
-    private int provincial_id;
-    private float posi_x;
-    private float posi_y;
-    private string name_on_map;
+/// 航空艦隊
+public class Air_Fleet
+{
+    private string name;
+    private int air_fleet_id;
+    private int attached_base;
+    private int aircraft_number;
 
-    public int Provincial_id { get => provincial_id; set => provincial_id = value; }
-    public float Posi_x { get => posi_x; set => posi_x = value; }
-    public float Posi_y { get => posi_y; set => posi_y = value; }
-    public string Name_on_map { get => name_on_map; set => name_on_map = value; }
-
-    public UI_Province(int id ,float x,float y , string name)
+    public Air_Fleet(string name, int air_fleet_id, int attached_base, int aircraft_number)
     {
-        provincial_id = id;
-        posi_x = x;
-        posi_y = y;
-        name_on_map = name;
+        this.name = name;
+        this.air_fleet_id = air_fleet_id;
+        this.attached_base = attached_base;
+        this.aircraft_number = aircraft_number;
     }
+
+    public string Name { get => name; set => name = value; }
+    public int Attached_base { get => attached_base; set => attached_base = value; }
+    public int Aircraft_number { get => aircraft_number; set => aircraft_number = value; }
+    public int Air_fleet_id { get => air_fleet_id; set => air_fleet_id = value; }
+
+    //基地の変更。
+    public void Change_Base(int base_id)
+    {
+        attached_base = base_id;
+
+    }
+
 
 }
 
-
+// TODO これが神クラスになりかけてるのであとで分割する。開発段階は許せ。
 public class Map_Data : MonoBehaviour
 {
     //
@@ -123,10 +131,19 @@ public class Map_Data : MonoBehaviour
     //プロヴィンスの入ったリスト。　TODO　DBとやり取りするようにする。
     private List<Province> list_province = new List<Province>();
 
+    //航空艦隊が入ってるリスト
+    private List<Air_Fleet> list_air_fleet = new List<Air_Fleet>();
+
+    //
+    private void Awake()
+    {
+        Deploy();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        Deploy();
+ 
    
         
     }
@@ -158,6 +175,15 @@ public class Map_Data : MonoBehaviour
         list_province.Add(p3);
         list_province.Add(p4);
         list_province.Add(p5);
+
+        Air_Fleet af1 = new Air_Fleet("第一航空艦隊", 1, 1, 40);
+        Air_Fleet af2 = new Air_Fleet("第二航空艦隊", 2, 1, 40);
+
+
+        list_air_fleet.Add(af1);
+        list_air_fleet.Add(af2);
+
+
     }
 
     public void Create_Province()
@@ -166,7 +192,7 @@ public class Map_Data : MonoBehaviour
 
     }
 
-
+    //これの関数をもうちょっと整理したい。全部の情報を一箇所から持ってこれるか？？？
     public void Pick_Province(int id)
     {
         //ボタンを押したときの情報を取得。
@@ -177,6 +203,9 @@ public class Map_Data : MonoBehaviour
 
         //idを受け取って、プロヴィンスを取得。
         Province a = list_province.Find(x => x.Provincial_id == id);
+
+        //idを受け取って本当に必要なリストを取得。
+        List<Air_Fleet> list_af = list_air_fleet.FindAll(x => x.Attached_base == id);
 
         GameObject province_view = GameObject.Find("Panel_province");
 
@@ -192,10 +221,14 @@ public class Map_Data : MonoBehaviour
             a.Fuel_count.ToString()
             );
 
+        //リストから艦隊情報を与える。。
+        province_view.GetComponent<View_Province>().Update_Unit_Rerated_UI(list_af);
+
+
     }
     
 
-    //ボタンの作成
+    //MAP上の拠点ボタンの作成
     public void CreateButton(Province provi)
     {
         //ボタンのプレファブを作成
@@ -224,7 +257,7 @@ public class Map_Data : MonoBehaviour
 
         //ボタンから呼び出す関数を設定。
         Button button = puro_button.GetComponent<Button>();
-        //ブタンが持つ関数を取得。引数に注意。
+        //ブタンが持つ関数を取得。引数に注意。拠点IDを読みにいってる。
         button.onClick.AddListener(() => Pick_Province(provi.Provincial_id));
 
     }
