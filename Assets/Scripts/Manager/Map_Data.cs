@@ -93,19 +93,34 @@ public class Air_Fleet
     private int air_fleet_id;
     private int attached_base;
     private int aircraft_number;
+    private int task_id;
+    private int pilot_number;
+    private string leader_name;
+    private int fatigue;
+    private string unit_type;
 
-    public Air_Fleet(string name, int air_fleet_id, int attached_base, int aircraft_number)
+    public Air_Fleet(string name, int air_fleet_id, int attached_base, int aircraft_number, int task_id, int pilot_number, string leader_name, int fatigue, string unit_type)
     {
         this.name = name;
         this.air_fleet_id = air_fleet_id;
         this.attached_base = attached_base;
         this.aircraft_number = aircraft_number;
+        this.task_id = task_id;
+        this.pilot_number = pilot_number;
+        this.leader_name = leader_name;
+        this.fatigue = fatigue;
+        this.unit_type = unit_type;
     }
 
     public string Name { get => name; set => name = value; }
     public int Attached_base { get => attached_base; set => attached_base = value; }
     public int Aircraft_number { get => aircraft_number; set => aircraft_number = value; }
     public int Air_fleet_id { get => air_fleet_id; set => air_fleet_id = value; }
+    public int Task_id { get => task_id; set => task_id = value; }
+    public int Pilot_number { get => pilot_number; set => pilot_number = value; }
+    public string Leader_name { get => leader_name; set => leader_name = value; }
+    public int Fatigue { get => fatigue; set => fatigue = value; }
+    public string Unit_type { get => unit_type; set => unit_type = value; }
 
     //基地の変更。
     public void Change_Base(int base_id)
@@ -176,8 +191,8 @@ public class Map_Data : MonoBehaviour
         list_province.Add(p4);
         list_province.Add(p5);
 
-        Air_Fleet af1 = new Air_Fleet("第一航空艦隊", 1, 1, 40);
-        Air_Fleet af2 = new Air_Fleet("第二航空艦隊", 2, 1, 40);
+        Air_Fleet af1 = new Air_Fleet("第一航空艦隊", 1, 1, 40,1,20,"権堂狂死郎",30,"A6M2");
+        Air_Fleet af2 = new Air_Fleet("第二航空艦隊", 2, 1, 40,1,20, "徳川家定", 30, "A6M2");
 
 
         list_air_fleet.Add(af1);

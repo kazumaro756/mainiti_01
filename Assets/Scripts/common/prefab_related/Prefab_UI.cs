@@ -25,13 +25,8 @@ public class Prefab_UI : Prefab_UI_abs
             Debug.Log(a1.Name);
             text_name.text = a1.Name;
         }
-
-
-        
+ 
     }
-
-    
-
 
 }
 

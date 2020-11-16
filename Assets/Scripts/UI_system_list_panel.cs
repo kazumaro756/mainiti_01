@@ -28,7 +28,7 @@ public class UI_system_list_panel : MonoBehaviour
     //明らかに変な実装だ。。。。
     public void Deploy<TypeA_list, TypeB_class, TypeC_class>(TypeA_list list_unit, GameObject unit_prefab)
         where TypeA_list : List<TypeB_class>
-        where TypeC_class : Prefab_UI_abs // これはあくまで既定クラスという意味なのだが。それであってるんか。
+        where TypeC_class : Prefab_UI_abs // これはあくまで基底クラスという意味なのだが。それであってるんか。
     {
         //リストを取得。
 
