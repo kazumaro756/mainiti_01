@@ -142,6 +142,8 @@ public class Map_Data : MonoBehaviour
     [SerializeField]
     GameObject Map;
 
+    [SerializeField]
+    GameObject panel_air_fleets;
 
     //プロヴィンスの入ったリスト。　TODO　DBとやり取りするようにする。
     private List<Province> list_province = new List<Province>();
@@ -240,8 +242,25 @@ public class Map_Data : MonoBehaviour
         //リストから艦隊情報を与える。。
         province_view.GetComponent<View_Province>().Update_Unit_Rerated_UI(list_af);
 
+        //これでもって自分のプロヴィIDを与えちゃう。
+        province_view.GetComponent<View_Province>().Provi_id = id;
+
 
     }
+
+    public void pick_air_fleet_manage(int id)
+    {
+        //panelを表示。
+        panel_air_fleets.SetActive(true);
+
+        //idを受け取って本当に必要なリストを取得。
+        List<Air_Fleet> list_af = list_air_fleet.FindAll(x => x.Attached_base == id);
+
+        //リストから艦隊情報を与える。。
+        panel_air_fleets.GetComponent<View_Airfleets>().Update_Unit_Rerated_UI(list_af);
+
+    }
+
     
 
     public void Pick_Air_Fleets(int id)
