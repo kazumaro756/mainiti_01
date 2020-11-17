@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Prefab_UI_airfleet_task : Prefab_UI_abs
 {
     [SerializeField]
-    Text name;
+    Text unit_name;
     [SerializeField]
     Text leader_name;
     [SerializeField]
@@ -25,7 +25,25 @@ public class Prefab_UI_airfleet_task : Prefab_UI_abs
 
     public override void UpdateUI<type>(type a)
     {
-        
+        if (a is Air_Fleet)
+        {
+            //型によって強制的にキャストしてるわけだが……これはうまくいかない気がするｗ。
+            Air_Fleet a1 = a as Air_Fleet;
+            Debug.Log(a1.Name);
+            unit_name.text = a1.Name;
+            leader_name.text = a1.Leader_name;
+            task.value = a1.Task_id;
+            fatigue.text = a1.Fatigue.ToString();
+            unit_type.text = a1.Unit_type;
+            unit_num.text = a1.Aircraft_number.ToString();
+            pilot_num.text = a1.Pilot_number.ToString();
+        }
+    }
+
+    //なんかこの実装はだめな気がするが一応書いておく……
+    public void Change_task(Air_Fleet a)
+    {
+        a.Task_id = task.value;
     }
 
     // Start is called before the first frame update

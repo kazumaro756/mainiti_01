@@ -230,6 +230,7 @@ public class Map_Data : MonoBehaviour
             a.Provincial_owner_unit,
             a.Mil_port_size.ToString(), 
             a.Mil_port_damage.ToString(), 
+
             a.Pri_port_size.ToString(), 
             a.Pri_port_damage.ToString(),
             a.Supply_count.ToString(), 
@@ -242,6 +243,13 @@ public class Map_Data : MonoBehaviour
 
     }
     
+
+    public void Pick_Air_Fleets(int id)
+    {
+
+
+    }
+
 
     //MAP上の拠点ボタンの作成
     public void CreateButton(Province provi)
