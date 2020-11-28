@@ -5,22 +5,24 @@ using UnityEngine.UI;
 
 public class Battle_Order : MonoBehaviour
 {
-    //配下のリストを得てみよう。
-    List<int> a;
+    //外側から変更するメンバ変数。
+    private int self_id;
+    private int rank;
 
+    //制御用
     private bool tenkai_flg;
 
-    //[SerializeField]
-    //Text t;
+    //これをインスタンス化したタイミングで渡す設計にする。
+    public int Self_id { get => self_id; set => self_id = value; }
+    public int Rank { get => rank; set => rank = value; }
 
     // Start is called before the first frame update
     void Start()
     {
         tenkai_flg = false;
-
     }
 
-    //統合的な2つの関数を表現している。
+    //統合的な2つの関数を表現している。純粋なview寄りのやつ。
     public void Control_Children()
     {
         if (tenkai_flg)
@@ -46,66 +48,51 @@ public class Battle_Order : MonoBehaviour
     //子供を追加。する。
     public void Add_Children()
     {
-        //使いたいプレファブの指定。
-        GameObject pilot_unit1 = (GameObject)Resources.Load("Prefabs/Panel_2");
-        GameObject pilot_unit2 = (GameObject)Resources.Load("Prefabs/Panel_3");
-        GameObject pilot_unit3 = (GameObject)Resources.Load("Prefabs/Panel_4");
-        GameObject pilot_unit4 = (GameObject)Resources.Load("Prefabs/Panel_5");
-
-        //リストから取得してインスタンス化
-
+        //使いたいプレファブを指定。自分自身の階層よりも一個下で取得。
+        GameObject bo_unit = (GameObject)Resources.Load("Prefabs/Panel_"+(rank+1));
+        
+        //boのリストを取得。
+        //使うもののみ取得。
+        List<Battle_order> list_use = GameObject.Find("MapManager").GetComponent<Map_Data>().List_battle_ordre.FindAll(x => x.Parent_org_id == self_id);
 
 
+        //対象のリストも取得。
+        List<Air_Fleet> list_afs = GameObject.Find("MapManager").GetComponent<Map_Data>().List_air_fleet;
 
-
-        //インスタンス化。
-        //GameObject p3 = Instantiate(pilot_unit3, this.transform.parent);
-
-        //インスタンス化。
-        //GameObject p4 = Instantiate(pilot_unit4, this.transform.parent);
-
-        int i = 0;
+        //for文でまわす
+        int idx = 1;
         //フォーイーチ文
-        //foreach (int item in a)
-        //{
-        //    if (item == 1) { p1.transform.SetSiblingIndex(this.transform.GetSiblingIndex() + 1); }
-        //}
+        foreach (Battle_order bo in list_use)
+        {
+            //インスタンス化.自分と同じオブジェクトに配置する。
+            GameObject t1 = Instantiate(bo_unit, this.transform.parent);
 
-        //場所を変更。
-        //インスタンス化。
-        GameObject p1 = Instantiate(pilot_unit1, this.transform.parent);
-        p1.name = "aaaa";
-        p1.GetComponent<Battle_order_view>().update_view("第1戦隊");
-        p1.transform.SetSiblingIndex(this.transform.GetSiblingIndex() + 1);
+            //階層設定。親の一つ下に追加する。
+            t1.transform.SetSiblingIndex(this.transform.GetSiblingIndex() + idx);
 
-        //場所を変更。
-        //インスタンス化。
-        GameObject px = Instantiate(pilot_unit1, this.transform.parent);
-        px.name = "航空兵団";
-        px.GetComponent<Battle_order_view>().update_view("第3戦隊");
-        px.transform.SetSiblingIndex(this.transform.GetSiblingIndex() + 2);
+            //次の配置用に修正。
+            idx += 1;
 
-        //インスタンス化。
-        GameObject p2 = Instantiate(pilot_unit2, this.transform.parent);
-        p2.name = "bbbb";
-        p2.GetComponent<Battle_order_view>().update_view("第1航空戦隊");
-        p2.transform.SetSiblingIndex(this.transform.GetSiblingIndex() + 3);
+            //作成したインスタンスの設定。
+            t1.name = "bo_" + bo.Child_org_id;
+            //ビュー関数を流してUIを更新。
+            //艦隊の詳細情報を取得。
+            Air_Fleet af = list_afs.Find(x => x.Air_fleet_id == bo.Child_org_id);
 
-
+            //TODO。リストをもらってくる。
+            t1.GetComponent<Battle_order_view>().update_view(af.Name);
+        }
     }
 
     //出ていたものを外す。
     public void Close_Chirldren()
     {
-       　//配下になっているチルドレンを破壊する。
-        GameObject g1 = GameObject.Find("aaaa");
-        Destroy(g1);
-
-        GameObject g2 = GameObject.Find("bbbb");
-        Destroy(g2);
-        //Destroy(GameObject.transform.GetSiblingIndex(this.transform.GetSiblingIndex() + 1));
-
-
+        //配下をすべて破壊する。
+        foreach (Transform child in this.transform)
+        {
+            // 一つずつ破棄する
+            Destroy(child.gameObject);
+        }
     }
 
 

@@ -132,10 +132,199 @@ public class Air_Fleet
 
 }
 
+
+//パイロット
+public class Pilot
+{
+    private int pilot_id;
+    private string pilot_name;
+    private string pilot_rank;
+    private int using_aircraft_id;
+    private int attached_airfleet_id;
+    private bool airfleet_leader_flag;
+
+    //leader_ship
+    private int pilot_exp_leadership;
+    private int pilot_skill_leadership;
+
+    //private pilot skill
+    private int pilot_exp_air_battle;
+    private int pilot_exp_land_bombing;
+    private int pilot_exp_naval_unit_bombing;
+    private int pilot_exp_troped;
+    private int pilot_exp_recon;
+
+
+    //これらのスキルは最終効果で期待側に乗せる。
+    private int pilot_skill_air_battle;
+    private int pilot_skill_bombing_land;
+    private int pilot_skill_bombing_naval_unit;
+    private int pilot_skill_troped;
+    private int pilot_skill_recon;
+
+    //コンストラクタ。
+    public Pilot(int pilot_id, string pilot_name, string pilot_rank, int using_aircraft_id, int attached_airfleet_id, bool airfleet_leader_flag, int pilot_exp_leadership, int pilot_skill_leadership, int pilot_exp_air_battle, int pilot_exp_land_bombing, int pilot_exp_naval_unit_bombing, int pilot_exp_troped, int pilot_exp_recon, int pilot_skill_air_battle, int pilot_skill_bombing_land, int pilot_skill_bombing_naval_unit, int pilot_skill_troped, int pilot_skill_recon)
+    {
+        this.pilot_id = pilot_id;
+        this.pilot_name = pilot_name;
+        this.pilot_rank = pilot_rank;
+        this.using_aircraft_id = using_aircraft_id;
+        this.attached_airfleet_id = attached_airfleet_id;
+        this.airfleet_leader_flag = airfleet_leader_flag;
+        this.pilot_exp_leadership = pilot_exp_leadership;
+        this.pilot_skill_leadership = pilot_skill_leadership;
+        this.pilot_exp_air_battle = pilot_exp_air_battle;
+        this.pilot_exp_land_bombing = pilot_exp_land_bombing;
+        this.pilot_exp_naval_unit_bombing = pilot_exp_naval_unit_bombing;
+        this.pilot_exp_troped = pilot_exp_troped;
+        this.pilot_exp_recon = pilot_exp_recon;
+        this.pilot_skill_air_battle = pilot_skill_air_battle;
+        this.pilot_skill_bombing_land = pilot_skill_bombing_land;
+        this.pilot_skill_bombing_naval_unit = pilot_skill_bombing_naval_unit;
+        this.pilot_skill_troped = pilot_skill_troped;
+        this.pilot_skill_recon = pilot_skill_recon;
+    }
+}
+
+//機体
+public class Aircraft_unit
+{
+    private int aircraft_id;
+    private string aircraft_type;
+    private int aircraft_class_id;
+    private string aircraft_class_name;
+    private int pilot_id;
+
+    //最終的にはこういう実装にするんだろうけど今はそのときではない。
+    //列複数もたせるしかねーんじゃねーかなというきもする。
+    //private List<Weapon> list_weapons;
+}
+
+
+public class Test_pilot {
+    private int pilot_id;
+    private string pilot_name;
+
+    public Test_pilot(int pilot_id, string pilot_name)
+    {
+        this.pilot_id = pilot_id;
+        this.pilot_name = pilot_name;
+    }
+}
+
+public class Test_unit
+{
+    private int unit_id;
+    private string unit_name;
+
+    public Test_unit(int unit_id, string unit_name)
+    {
+        this.unit_id = unit_id;
+        this.unit_name = unit_name;
+    }
+}
+
+//パイロットと機体のトランザクション
+public class HR_transaction {
+    private int HR_id;
+    private int pilot_id;
+    private int unit_id;
+    private string status;
+
+    public HR_transaction(int hR_id, int pilot_id, int unit_id, string status)
+    {
+        HR_id = hR_id;
+        this.pilot_id = pilot_id;
+        this.unit_id = unit_id;
+        this.status = status;
+    }
+}
+
+//武装
+public class Weapon 
+{
+    //これが武装に関するものですね。
+    //各種メンバ変数
+    private int weapon_id;
+    private string weapon_name;
+    private string weapon_type;
+
+    private int weapon_attack;
+    private int weapon_attack_speed;
+    private int weapon_penitration_armar;
+    private int weapon_penitration_shield;
+
+    //ここにサポート系も追加する。
+
+    //コンストラクタ
+    public Weapon(int w_id ,string w_name, string w_type, int w_attack, int w_attack_s, int w_peni_arm, int w_peni_shi)
+    {
+        weapon_id = w_id;
+
+        weapon_name = w_name;
+        weapon_type = w_type;
+
+        weapon_attack = w_attack;
+        weapon_attack_speed = w_attack_s;
+        weapon_penitration_armar = w_peni_arm;
+        weapon_penitration_shield = w_peni_shi;
+
+    }
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    //武器の使用。
+    public void Using_arm<Type>(Type tgt)
+    {
+
+
+    }
+
+}
+
+//部隊の戦闘序列に関するデータ
+public class Battle_order
+{
+    private int bo_id;
+    private int parent_org_id;
+    //private string parent_org_name;
+    private int child_org_id;
+
+    public Battle_order(int bo_id, int parent_org_id, int child_org_id)
+    {
+        this.bo_id = bo_id;
+        this.parent_org_id = parent_org_id;
+        this.child_org_id = child_org_id;
+    }
+
+    public int Bo_id { get => bo_id; set => bo_id = value; }
+    public int Parent_org_id { get => parent_org_id; set => parent_org_id = value; }
+    public int Child_org_id { get => child_org_id; set => child_org_id = value; }
+    //private string child_org_name;
+
+
+    //private bool spream_parent_code;
+
+
+}
+
+
+
 // TODO これが神クラスになりかけてるのであとで分割する。開発段階は許せ。
 public class Map_Data : MonoBehaviour
 {
-    //
+    //  、ｍん。
     [SerializeField]
     GameObject panel_provi;
 
@@ -151,6 +340,18 @@ public class Map_Data : MonoBehaviour
     //航空艦隊が入ってるリスト
     private List<Air_Fleet> list_air_fleet = new List<Air_Fleet>();
 
+
+    //人事上のやり取りが入っている。これは最後にはDBになるけどね.
+    private List<HR_transaction> list_hr_transaction = new List<HR_transaction>();
+
+
+    //戦闘序列の記録
+    private List<Battle_order> list_battle_ordre = new List<Battle_order>();
+
+    public List<Battle_order> List_battle_ordre { get => list_battle_ordre; set => list_battle_ordre = value; }
+    public List<Air_Fleet> List_air_fleet { get => list_air_fleet; set => list_air_fleet = value; }
+
+
     //
     private void Awake()
     {
@@ -160,10 +361,18 @@ public class Map_Data : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
- 
-   
         
     }
+
+    //テスト用のコンストラクタを飛ばすやつ。
+    public void Test_Deploy() {
+        Test_pilot tp1 = new Test_pilot(1, "ゴンゾウ");
+        Test_pilot tp2 = new Test_pilot(2, "珍太郎");
+
+        Test_unit tu1 = new Test_unit(1, "A6M2");
+        Test_unit tu2 = new Test_unit(2, "Ki44");
+    }
+
 
     public void Deploy()
     {
@@ -195,11 +404,23 @@ public class Map_Data : MonoBehaviour
 
         Air_Fleet af1 = new Air_Fleet("第一航空艦隊", 1, 1, 40,1,20,"権堂狂死郎",30,"A6M2");
         Air_Fleet af2 = new Air_Fleet("第二航空艦隊", 2, 1, 40,1,20, "徳川家定", 30, "A6M2");
+        Air_Fleet af3 = new Air_Fleet("第三航空艦隊", 3, 2, 40, 1, 20, "ジョン・万次郎", 30, "A7M2");
+        Air_Fleet af4 = new Air_Fleet("第四航空艦隊", 4, 3, 40, 1, 20, "コアリション", 30, "D2Y1");
 
 
         list_air_fleet.Add(af1);
         list_air_fleet.Add(af2);
+        list_air_fleet.Add(af3);
+        list_air_fleet.Add(af4);
 
+        //戦闘序列
+        Battle_order bo1 = new Battle_order(1,1,2);
+        Battle_order bo2 = new Battle_order(1, 1,3 );
+        Battle_order bo3 = new Battle_order(1, 1, 4);
+
+        list_battle_ordre.Add(bo1);
+        list_battle_ordre.Add(bo2);
+        list_battle_ordre.Add(bo3);
 
     }
 
@@ -261,14 +482,11 @@ public class Map_Data : MonoBehaviour
 
     }
 
-    
-
     public void Pick_Air_Fleets(int id)
     {
 
 
     }
-
 
     //MAP上の拠点ボタンの作成
     public void CreateButton(Province provi)
@@ -301,6 +519,26 @@ public class Map_Data : MonoBehaviour
         Button button = puro_button.GetComponent<Button>();
         //ブタンが持つ関数を取得。引数に注意。拠点IDを読みにいってる。
         button.onClick.AddListener(() => Pick_Province(provi.Provincial_id));
+
+    }
+
+
+    //戦闘序列
+    public void Create_battle_order(int supream_org_id)
+    {
+        //戦闘序列を作成。ここで配置するのは、あくまで最上位の部隊。
+        GameObject bato = (GameObject)Resources.Load("Prefabs/Panel_1");
+
+        //インスタンス化 
+        //親はまだ何も決まってないのであとでちゃんと決めること。
+        GameObject ins_bato = Instantiate(bato, Map.transform);
+
+        //オブジェクト名を変更
+        ins_bato.name = "battle_order" + supream_org_id;
+
+        //batoが持ってる関数に対して、boを投げるわけだね。
+
+
 
     }
 
