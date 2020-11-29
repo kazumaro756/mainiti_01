@@ -12,6 +12,9 @@ public class Battle_Order : MonoBehaviour
     //制御用
     private bool tenkai_flg;
 
+    //削除するときに参照するよう
+    private List<GameObject> list_child = new List<GameObject> ();
+
     //これをインスタンス化したタイミングで渡す設計にする。
     public int Self_id { get => self_id; set => self_id = value; }
     public int Rank { get => rank; set => rank = value; }
@@ -61,13 +64,14 @@ public class Battle_Order : MonoBehaviour
 
         //for文でまわす
         int idx = 1;
+
         //フォーイーチ文
         foreach (Battle_order bo in list_use)
         {
             //インスタンス化.自分と同じオブジェクトに配置する。
             GameObject t1 = Instantiate(bo_unit, this.transform.parent);
 
-            //階層設定。親の一つ下に追加する。
+            //階層設定。親の一つ下に追加する。kここでインデックスを使ってる。
             t1.transform.SetSiblingIndex(this.transform.GetSiblingIndex() + idx);
 
             //次の配置用に修正。
@@ -81,18 +85,28 @@ public class Battle_Order : MonoBehaviour
 
             //TODO。リストをもらってくる。
             t1.GetComponent<Battle_order_view>().update_view(af.Name);
+
+            //リスト作成用。
+            list_child.Add(t1);
         }
     }
 
     //出ていたものを外す。
     public void Close_Chirldren()
     {
-        //配下をすべて破壊する。
-        foreach (Transform child in this.transform)
+
+        //子供オブジェクトをすべて殺す。
+        foreach (GameObject a in list_child)
         {
-            // 一つずつ破棄する
-            Destroy(child.gameObject);
+            Destroy(a);
+
         }
+
+        //Destroy(GameObject.transform.GetSiblingIndex(this.transform.GetSiblingIndex() + 1));
+
+        //silbingを設定している。
+
+
     }
 
 

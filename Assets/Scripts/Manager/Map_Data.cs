@@ -334,6 +334,10 @@ public class Map_Data : MonoBehaviour
     [SerializeField]
     GameObject panel_air_fleets;
 
+    [SerializeField]
+    GameObject panel_battle_order;
+
+
     //プロヴィンスの入ったリスト。　TODO　DBとやり取りするようにする。
     private List<Province> list_province = new List<Province>();
 
@@ -421,6 +425,9 @@ public class Map_Data : MonoBehaviour
         list_battle_ordre.Add(bo1);
         list_battle_ordre.Add(bo2);
         list_battle_ordre.Add(bo3);
+
+        //
+        Create_battle_order(1);
 
     }
 
@@ -529,16 +536,18 @@ public class Map_Data : MonoBehaviour
         //戦闘序列を作成。ここで配置するのは、あくまで最上位の部隊。
         GameObject bato = (GameObject)Resources.Load("Prefabs/Panel_1");
 
-        //インスタンス化 
-        //親はまだ何も決まってないのであとでちゃんと決めること。
-        GameObject ins_bato = Instantiate(bato, Map.transform);
+        //インスタンス化。一覧のところに生成する。
+        GameObject ins_bato = Instantiate(bato, panel_battle_order.transform);
 
         //オブジェクト名を変更
         ins_bato.name = "battle_order" + supream_org_id;
 
-        //batoが持ってる関数に対して、boを投げるわけだね。
+        //戦闘序列側が持っている処理を追加する。
+        //こっちは親の組織IDをもたせる。
+        ins_bato.GetComponent<Battle_Order>().Self_id = supream_org_id;
 
-
+        //ここどういう設計にするかあとで考える。
+        ins_bato.GetComponent<Battle_Order>().Rank= 1;
 
     }
 
