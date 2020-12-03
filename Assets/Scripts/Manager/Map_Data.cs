@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 //ただのマップクラス。
 public class Province
 {
@@ -98,8 +100,9 @@ public class Air_Fleet
     private string leader_name;
     private int fatigue;
     private string unit_type;
+    private int air_fleet_battle_order_rank;
 
-    public Air_Fleet(string name, int air_fleet_id, int attached_base, int aircraft_number, int task_id, int pilot_number, string leader_name, int fatigue, string unit_type)
+    public Air_Fleet(string name, int air_fleet_id, int attached_base, int aircraft_number, int task_id, int pilot_number, string leader_name, int fatigue, string unit_type, int air_fleet_battle_order_rank)
     {
         this.name = name;
         this.air_fleet_id = air_fleet_id;
@@ -110,6 +113,8 @@ public class Air_Fleet
         this.leader_name = leader_name;
         this.fatigue = fatigue;
         this.unit_type = unit_type;
+        this.air_fleet_battle_order_rank = air_fleet_battle_order_rank;
+
     }
 
     public string Name { get => name; set => name = value; }
@@ -121,6 +126,7 @@ public class Air_Fleet
     public string Leader_name { get => leader_name; set => leader_name = value; }
     public int Fatigue { get => fatigue; set => fatigue = value; }
     public string Unit_type { get => unit_type; set => unit_type = value; }
+    public int Air_fleet_battle_order_rank { get => air_fleet_battle_order_rank; set => air_fleet_battle_order_rank = value; }
 
     //基地の変更。
     public void Change_Base(int base_id)
@@ -128,6 +134,15 @@ public class Air_Fleet
         attached_base = base_id;
 
     }
+
+    //階層の変更。あげたり下げたり。
+    public void Change_Battle_Order_Rank(int new_rank )
+    {
+        Air_fleet_battle_order_rank = new_rank;
+    }
+
+
+
 
 
 }
@@ -406,28 +421,43 @@ public class Map_Data : MonoBehaviour
         list_province.Add(p4);
         list_province.Add(p5);
 
-        Air_Fleet af1 = new Air_Fleet("第一航空艦隊", 1, 1, 40,1,20,"権堂狂死郎",30,"A6M2");
-        Air_Fleet af2 = new Air_Fleet("第二航空艦隊", 2, 1, 40,1,20, "徳川家定", 30, "A6M2");
-        Air_Fleet af3 = new Air_Fleet("第三航空艦隊", 3, 2, 40, 1, 20, "ジョン・万次郎", 30, "A7M2");
-        Air_Fleet af4 = new Air_Fleet("第四航空艦隊", 4, 3, 40, 1, 20, "コアリション", 30, "D2Y1");
+        Air_Fleet af1 = new Air_Fleet("第一航空艦隊", 1, 1, 40,1,20,"権堂狂死郎",30,"A6M2",1);
+        Air_Fleet af2 = new Air_Fleet("第二航空艦隊", 2, 1, 40,1,20, "徳川家定", 30, "A6M2",2);
+        Air_Fleet af3 = new Air_Fleet("第三航空艦隊", 3, 2, 40, 1, 20, "ジョン・万次郎", 30, "A7M2",2);
+        Air_Fleet af4 = new Air_Fleet("第四航空艦隊", 4, 3, 40, 1, 20, "コアリション", 30, "D2Y1",2);
+        Air_Fleet af5 = new Air_Fleet("第五航空艦隊", 5, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 3);
+        Air_Fleet af6 = new Air_Fleet("第六航空艦隊", 6, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 4);
+
+
+        //Air_Fleet af7 = new Air_Fleet("第7航空艦隊", 6, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 3);
 
 
         list_air_fleet.Add(af1);
         list_air_fleet.Add(af2);
         list_air_fleet.Add(af3);
         list_air_fleet.Add(af4);
+        list_air_fleet.Add(af5);
+        list_air_fleet.Add(af6);
+
+        
 
         //戦闘序列
-        Battle_order bo1 = new Battle_order(1,1,2);
-        Battle_order bo2 = new Battle_order(1, 1,3 );
-        Battle_order bo3 = new Battle_order(1, 1, 4);
+        Battle_order bo1 = new Battle_order(1, 1, 2);
+        Battle_order bo2 = new Battle_order(2, 1, 3);
+        Battle_order bo3 = new Battle_order(3, 1, 4);
+        Battle_order bo4 = new Battle_order(4, 2, 5);
+        Battle_order bo5 = new Battle_order(5, 5, 6);
+
+        
 
         list_battle_ordre.Add(bo1);
         list_battle_ordre.Add(bo2);
         list_battle_ordre.Add(bo3);
+        list_battle_ordre.Add(bo4);
+        list_battle_ordre.Add(bo5);
 
         //
-        Create_battle_order(1);
+        Create_battle_order(af1);
 
     }
 
@@ -530,8 +560,8 @@ public class Map_Data : MonoBehaviour
     }
 
 
-    //戦闘序列
-    public void Create_battle_order(int supream_org_id)
+    //戦闘序列 ただしこの関数は最上位だけを吐かせる。
+    public void Create_battle_order( Air_Fleet af)
     {
         //戦闘序列を作成。ここで配置するのは、あくまで最上位の部隊。
         GameObject bato = (GameObject)Resources.Load("Prefabs/Panel_1");
@@ -540,16 +570,29 @@ public class Map_Data : MonoBehaviour
         GameObject ins_bato = Instantiate(bato, panel_battle_order.transform);
 
         //オブジェクト名を変更
-        ins_bato.name = "battle_order" + supream_org_id;
+        ins_bato.name = "battle_order" + af.Air_fleet_id;
 
         //戦闘序列側が持っている処理を追加する。
         //こっちは親の組織IDをもたせる。
-        ins_bato.GetComponent<Battle_Order>().Self_id = supream_org_id;
+        ins_bato.GetComponent<Battle_Order>().Self_id = af.Air_fleet_id;
 
         //ここどういう設計にするかあとで考える。
-        ins_bato.GetComponent<Battle_Order>().Rank= 1;
+        ins_bato.GetComponent<Battle_Order>().Rank= af.Air_fleet_battle_order_rank;
 
     }
+
+    //新組織の作成。
+    public void Create_new_org()
+    {
+        Air_Fleet afx = new Air_Fleet("第一歩兵連隊", 7, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 4);
+        list_air_fleet.Add(afx);
+
+        //序列に対して追加
+        Battle_order box = new Battle_order(6, 1, 7);
+        //UIの更新。
+        list_battle_ordre.Add(box);
+    }
+
 
 
 

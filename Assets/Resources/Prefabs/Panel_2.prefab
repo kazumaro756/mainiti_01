@@ -117,7 +117,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 90574749}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -4456593014529992042}
+        m_MethodName: Control_Children
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1301639636
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +163,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -158, y: -4}
+  m_AnchoredPosition: {x: -62, y: 0}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1301639639
@@ -359,6 +370,7 @@ GameObject:
   - component: {fileID: 9167558102730431124}
   - component: {fileID: 9167558102730431125}
   - component: {fileID: 6021780569427270261}
+  - component: {fileID: -4456593014529992042}
   m_Layer: 5
   m_Name: Panel_2
   m_TagString: Untagged
@@ -435,3 +447,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text_butai_name: {fileID: 1301639638}
+--- !u!114 &-4456593014529992042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9167558102730431123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b9274c3f4ef724699a6229207c961e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent_object: {fileID: 0}
