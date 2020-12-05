@@ -17,8 +17,8 @@ public class Battle_Order : MonoBehaviour
     private bool tenkai_flg;
 
     //削除するときに参照するよう
-    //重複を無視してほしいので、Hashsetなるものを使う。
-    public HashSet<GameObject> list_child = new HashSet<GameObject>();
+    //重複を無視してほしいので、Listなるものを使う。
+    public List<GameObject> list_child = new List<GameObject>();
 
 
 
@@ -27,7 +27,7 @@ public class Battle_Order : MonoBehaviour
     public int Rank { get => rank; set => rank = value; }
 
     //これについては、外側からわかるようにしておかないといけない。
-    public HashSet<GameObject> List_child { get => list_child; set => list_child = value; }
+    public List<GameObject> List_child { get => list_child; set => list_child = value; }
     public GameObject Paret_object { get => parent_object; set => parent_object = value; }
 
 
@@ -63,12 +63,35 @@ public class Battle_Order : MonoBehaviour
 
 
     //再帰的追加処理。
-    private void Recursive_add_child(GameObject self,GameObject child)
+    private void Recursive_add_child(GameObject p_object,GameObject tgt)
     {
+        if (p_object != null)//親チェック
+        {
+            //親処理
+            p_object.GetComponent<Battle_Order>().List_child.Add(tgt);
+
+            //じいちゃんチェック
+            if (p_object.GetComponent<Battle_Order>().Paret_object != null)
+            {
+                //じいちゃん処理。
+                Recursive_add_child(p_object.GetComponent<Battle_Order>().Paret_object, tgt);
+
+
+            }
+            else
+            {
+                return;
+            }
+
+        }
+        else
+        {
+            return;
+        }
+
+
 
     }
-
-
    
 
 
@@ -125,23 +148,42 @@ public class Battle_Order : MonoBehaviour
 
 
             //TODO。リストをもらってくる。
-            t1.GetComponent<Battle_order_view>().update_view(af.Name);
+            t1.GetComponent<Battle_order_view>().update_all_ui(af);
 
             //リスト作成用。
             list_child.Add(t1);
 
             //親にとっての子に対しても追加する。
             //ここもうちょっときれいにする。
-            if(Paret_object != null)
-            {
-                Paret_object.GetComponent<Battle_Order>().List_child.Add(t1);
+            //再帰的な関数にする方法がわからん。
 
-                if (Paret_object.GetComponent<Battle_Order>().Paret_object != null)
-                {
-                    Paret_object.GetComponent<Battle_Order>().Paret_object.GetComponent<Battle_Order>().List_child.Add(t1);
-                }
+            //親に対して取得
 
-            }
+            Recursive_add_child(Paret_object, t1);
+
+            //if (Paret_object != null)
+            //{
+            //    //親処理
+            //    Paret_object.GetComponent<Battle_Order>().List_child.Add(t1);
+
+            //    //じいちゃんチェック
+            //    if (Paret_object.GetComponent<Battle_Order>().Paret_object != null)
+            //    {
+            //        //じいちゃん処理。
+            //        Paret_object.GetComponent<Battle_Order>().Paret_object.GetComponent<Battle_Order>().List_child.Add(t1);
+                    
+            //        //曾祖父ちゃんチェック
+            //        if(Paret_object.GetComponent<Battle_Order>().Paret_object.GetComponent<Battle_Order>().Paret_object != null)
+            //        {
+            //            Paret_object.GetComponent<Battle_Order>().Paret_object.GetComponent<Battle_Order>().Paret_object.GetComponent<Battle_Order>().List_child.Add(t1);
+
+            //            //if()
+            //        }
+
+
+            //    }
+
+            //}
 
 
 

@@ -147,7 +147,6 @@ public class Air_Fleet
 
 }
 
-
 //パイロット
 public class Pilot
 {
@@ -421,12 +420,19 @@ public class Map_Data : MonoBehaviour
         list_province.Add(p4);
         list_province.Add(p5);
 
-        Air_Fleet af1 = new Air_Fleet("第一航空艦隊", 1, 1, 40,1,20,"権堂狂死郎",30,"A6M2",1);
-        Air_Fleet af2 = new Air_Fleet("第二航空艦隊", 2, 1, 40,1,20, "徳川家定", 30, "A6M2",2);
-        Air_Fleet af3 = new Air_Fleet("第三航空艦隊", 3, 2, 40, 1, 20, "ジョン・万次郎", 30, "A7M2",2);
-        Air_Fleet af4 = new Air_Fleet("第四航空艦隊", 4, 3, 40, 1, 20, "コアリション", 30, "D2Y1",2);
-        Air_Fleet af5 = new Air_Fleet("第五航空艦隊", 5, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 3);
-        Air_Fleet af6 = new Air_Fleet("第六航空艦隊", 6, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 4);
+        Air_Fleet af1 = new Air_Fleet("北部総軍", 1, 1, 40,1,20,"権堂狂死郎",30,"A6M2",1);
+        Air_Fleet af2 = new Air_Fleet("第1方面軍", 2, 1, 40,1,20, "徳川家定", 30, "A6M2",2);
+        Air_Fleet af3 = new Air_Fleet("第2方面軍", 3, 2, 40, 1, 20, "ジョン・万次郎", 30, "A7M2",2);
+        Air_Fleet af4 = new Air_Fleet("第3方面軍", 4, 3, 40, 1, 20, "コアリション", 30, "D2Y1",2);
+        Air_Fleet af5 = new Air_Fleet("第1軍", 5, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 3);
+        Air_Fleet af6 = new Air_Fleet("第1師団", 6, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 4);
+        Air_Fleet af7 = new Air_Fleet("第22旅団", 7, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 5);
+        Air_Fleet af8 = new Air_Fleet("第1連隊", 8, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 6);
+        Air_Fleet af9 = new Air_Fleet("第1大隊", 9, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 7);
+        Air_Fleet af10 = new Air_Fleet("第1中隊", 10, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 8);
+        Air_Fleet af11 = new Air_Fleet("第1小隊", 11, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 9);
+        Air_Fleet af12 = new Air_Fleet("第1分隊", 12, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 10);
+
 
 
         //Air_Fleet af7 = new Air_Fleet("第7航空艦隊", 6, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 3);
@@ -438,8 +444,13 @@ public class Map_Data : MonoBehaviour
         list_air_fleet.Add(af4);
         list_air_fleet.Add(af5);
         list_air_fleet.Add(af6);
+        list_air_fleet.Add(af7);
+        list_air_fleet.Add(af8);
+        list_air_fleet.Add(af9);
+        list_air_fleet.Add(af10);
+        list_air_fleet.Add(af11);
+        list_air_fleet.Add(af12);
 
-        
 
         //戦闘序列
         Battle_order bo1 = new Battle_order(1, 1, 2);
@@ -447,14 +458,25 @@ public class Map_Data : MonoBehaviour
         Battle_order bo3 = new Battle_order(3, 1, 4);
         Battle_order bo4 = new Battle_order(4, 2, 5);
         Battle_order bo5 = new Battle_order(5, 5, 6);
+        Battle_order bo6 = new Battle_order(6, 6, 7);
+        Battle_order bo7 = new Battle_order(7, 7, 8);
+        Battle_order bo8 = new Battle_order(8, 8, 9);
+        Battle_order bo9 = new Battle_order(9, 9, 10);
+        Battle_order bo10 = new Battle_order(9,10, 11);
+        Battle_order bo11 = new Battle_order(9,11, 12);
 
-        
 
         list_battle_ordre.Add(bo1);
         list_battle_ordre.Add(bo2);
         list_battle_ordre.Add(bo3);
         list_battle_ordre.Add(bo4);
         list_battle_ordre.Add(bo5);
+        list_battle_ordre.Add(bo6);
+        list_battle_ordre.Add(bo7);
+        list_battle_ordre.Add(bo8);
+        list_battle_ordre.Add(bo9);
+        list_battle_ordre.Add(bo10);
+        list_battle_ordre.Add(bo11);
 
         //
         Create_battle_order(af1);
@@ -579,12 +601,15 @@ public class Map_Data : MonoBehaviour
         //ここどういう設計にするかあとで考える。
         ins_bato.GetComponent<Battle_Order>().Rank= af.Air_fleet_battle_order_rank;
 
+        //最上級部隊なので、親に対して明示的にnullを入れる。
+        ins_bato.GetComponent<Battle_Order>().Paret_object = null;
+
     }
 
     //新組織の作成。
     public void Create_new_org()
     {
-        Air_Fleet afx = new Air_Fleet("第一歩兵連隊", 7, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 4);
+        Air_Fleet afx = new Air_Fleet("第一歩兵連隊", 7, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 2);
         list_air_fleet.Add(afx);
 
         //序列に対して追加
