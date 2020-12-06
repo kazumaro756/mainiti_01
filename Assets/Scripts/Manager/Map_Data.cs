@@ -5,6 +5,32 @@ using UnityEngine.UI;
 
 
 
+//enumタイプ
+public enum unit_type
+{
+    //
+    歩兵
+    ,砲兵
+    ,騎兵
+    ,機甲
+
+}
+
+public enum unit_rank
+{
+    //
+    総軍
+    ,方面軍
+    ,軍
+    ,師団
+    ,旅団
+    ,連隊
+    ,大隊
+    ,中隊
+    ,小隊
+    ,分隊
+}
+
 //ただのマップクラス。
 public class Province
 {
@@ -370,6 +396,13 @@ public class Map_Data : MonoBehaviour
     public List<Air_Fleet> List_air_fleet { get => list_air_fleet; set => list_air_fleet = value; }
 
 
+    //部隊数
+    private int org_num;
+
+
+    //bo
+    private int org_bo;
+
     //
     private void Awake()
     {
@@ -379,7 +412,10 @@ public class Map_Data : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        org_num = 13;
+
+        org_bo = 11;
+
     }
 
     //テスト用のコンストラクタを飛ばすやつ。
@@ -594,6 +630,9 @@ public class Map_Data : MonoBehaviour
         //オブジェクト名を変更
         ins_bato.name = "battle_order" + af.Air_fleet_id;
 
+        //UI更新
+        ins_bato.GetComponent<Battle_order_view>().update_all_ui(af);
+
         //戦闘序列側が持っている処理を追加する。
         //こっちは親の組織IDをもたせる。
         ins_bato.GetComponent<Battle_Order>().Self_id = af.Air_fleet_id;
@@ -607,18 +646,21 @@ public class Map_Data : MonoBehaviour
     }
 
     //新組織の作成。
-    public void Create_new_org()
+    public void Create_new_org(int parent_id,int rank_parent , int rank_child)
     {
-        Air_Fleet afx = new Air_Fleet("第一歩兵連隊", 7, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 2);
+        org_num += 1;
+        org_bo += 1;
+
+        Air_Fleet afx = new Air_Fleet("第一歩兵連隊", org_num, 3, 40, 1, 20, "コアリション", 30, "D2Y1", rank_child);  
+        
         list_air_fleet.Add(afx);
 
-        //序列に対して追加
-        Battle_order box = new Battle_order(6, 1, 7);
+        //序列に対して追加 // BO自体のID、親のID、子のID
+        Battle_order box = new Battle_order(org_bo,parent_id , org_num);
+
         //UIの更新。
         list_battle_ordre.Add(box);
     }
-
-
 
 
 }

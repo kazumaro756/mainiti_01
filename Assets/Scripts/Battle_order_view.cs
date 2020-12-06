@@ -15,6 +15,9 @@ public class Battle_order_view : MonoBehaviour
     [SerializeField]
     GameObject image_panel;
 
+
+    //人からもらうAF。
+    //private Air_Fleet af;
     
 
 
@@ -67,6 +70,8 @@ public class Battle_order_view : MonoBehaviour
 
 
     }
+
+    
 
 
 }

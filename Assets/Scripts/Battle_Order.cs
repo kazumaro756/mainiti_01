@@ -13,6 +13,8 @@ public class Battle_Order : MonoBehaviour
     //親になる部隊.
     public GameObject parent_object;
 
+    //自分のaf。これをもらう仕様にするべき。
+
     //制御用
     private bool tenkai_flg;
 
@@ -99,11 +101,9 @@ public class Battle_Order : MonoBehaviour
     public void Add_Children()
     {
 
-        
         //boのリストを取得。
         //使うもののみ取得。 ここで子を知る　
         List<Battle_order> list_use = GameObject.Find("MapManager").GetComponent<Map_Data>().List_battle_ordre.FindAll(x => x.Parent_org_id == self_id);
-
 
         //対象のリストも取得。
         List<Air_Fleet> list_afs = GameObject.Find("MapManager").GetComponent<Map_Data>().List_air_fleet;
@@ -155,10 +155,10 @@ public class Battle_Order : MonoBehaviour
 
             //親にとっての子に対しても追加する。
             //ここもうちょっときれいにする。
-            //再帰的な関数にする方法がわからん。
+            
 
             //親に対して取得
-
+            //再帰的な処理。
             Recursive_add_child(Paret_object, t1);
 
             //if (Paret_object != null)
@@ -185,8 +185,6 @@ public class Battle_Order : MonoBehaviour
 
             //}
 
-
-
             //t1に対してさらにその配下もあたえないとね。
             //こっちは親の組織IDをもたせる。
             t1.GetComponent<Battle_Order>().Self_id = af.Air_fleet_id;
@@ -204,28 +202,42 @@ public class Battle_Order : MonoBehaviour
     //出ていたものを外す。
     public void Close_Chirldren()
     {
-        //今の実装だと、孫ができたときに殺しが成立してしまう。。。。
-        //
-
-    
 
         //子供オブジェクトをすべて殺す。
         foreach (GameObject a in list_child)
         {
             Destroy(a);
-            
         }
 
         //listはクリアする。
         list_child.Clear();
 
+    }
 
-        //Destroy(GameObject.transform.GetSiblingIndex(this.transform.GetSiblingIndex() + 1));
+    //組織編成画面をオープンする。
+    public void Open_Org_Making_Panel()
+    {
+        //自分のインスタンスを取得
+        //対象のリストも取得。
+        Air_Fleet selfaf = GameObject.Find("MapManager").GetComponent<Map_Data>().List_air_fleet.Find(x => x.Air_fleet_id == Self_id);
 
-        //silbingを設定している。
+        //部隊編成をするための画面をインスタンス化
+        GameObject bo_unit = (GameObject)Resources.Load("Prefabs/Pane_butai_hensei");
+
+        //インスタンス化
+        GameObject t1 = Instantiate(bo_unit, this.transform.root);
+
+        t1.GetComponent<Butai_hensei_view>().Update_all(selfaf);
+
+        //自分自身を渡す。
+        t1.GetComponent<Butai_hensei_view>().Self_af = selfaf;
+
 
 
     }
+
+
+
 
 
 }

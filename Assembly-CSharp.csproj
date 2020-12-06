@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\battle_manager.cs" />
     <Compile Include="Assets\Scripts\Battle_Order.cs" />
     <Compile Include="Assets\Scripts\Battle_order_view.cs" />
+    <Compile Include="Assets\Scripts\Butai_hensei_view.cs" />
     <Compile Include="Assets\Scripts\common\Change_button_name.cs" />
     <Compile Include="Assets\Scripts\common\exit_ui_panel.cs" />
     <Compile Include="Assets\Scripts\common\prefab_related\Prefab_UI.cs" />
