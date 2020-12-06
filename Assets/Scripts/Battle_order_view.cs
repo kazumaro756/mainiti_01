@@ -35,11 +35,11 @@ public class Battle_order_view : MonoBehaviour
     }
 
 
-    public void update_all_ui(Air_Fleet af )
+    public void update_all_ui(Air_Fleet af ,int parent_rank)
     {
         update_view(af.Name);
         update_image(af.Air_fleet_battle_order_rank);
-        update_order(af.Air_fleet_battle_order_rank);
+        update_order(parent_rank);
     }
 
 
@@ -50,11 +50,13 @@ public class Battle_order_view : MonoBehaviour
         text_butai_name.text = text;
     }
 
+    //これはランク依存でOK。
     public void update_image(int rank)
     {
         image_panel.GetComponent<Image>().sprite = Resources.Load<Sprite>("symbols/rank_" + rank.ToString() );
     }
 
+    //こっちの処理は、親との関係という観点からの処理。AF自体は親を知らないので引数はちょっと変える。
     public void update_order(int rank)
     {
 
@@ -65,9 +67,15 @@ public class Battle_order_view : MonoBehaviour
         float loca_y = localPos.y;
         float loca_z = localPos.z;
 
+        //この処理はランクじゃなくて、親依存に変えたい
         //ランク1は一番上に来るのでマイナス1をしないと変になる
-        rt.localPosition = new Vector3(loca_x + 60*(rank-1),loca_y,loca_z);
 
+        //int rank_test;
+        //if (rank == 1) { rank_test = 0; }else{ rank_test = rank - 1; }
+
+        rt.localPosition = new Vector3(loca_x + 60*(rank),loca_y,loca_z);
+
+        
 
     }
 

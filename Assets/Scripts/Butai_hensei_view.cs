@@ -30,6 +30,10 @@ public class Butai_hensei_view : MonoBehaviour
 
         Limit_rank(dd_rank, self_af.Air_fleet_battle_order_rank);
 
+        //dropdownの初期値を入れないとバグるので入れる
+        //実態としては入りうるナカで一番上のランクが入る。
+        selected_value_rank = self_af.Air_fleet_battle_order_rank + 1;
+
     }
 
     //ただし、選びホーダイというわけではないので注意。自分のランクより低いものを使うべき。自分自身を知らないことにはな。
@@ -93,8 +97,8 @@ public class Butai_hensei_view : MonoBehaviour
 
     public void Get_drop_rank()
     {
-        //このとり方だとenum側と合わなくなるのですよ。
-        selected_value_rank = dd_rank.value + self_af.Air_fleet_battle_order_rank;
+        //このとり方だとenum側と合わなくなるのですよ。1スタートなので1を足す。
+        selected_value_rank = dd_rank.value + self_af.Air_fleet_battle_order_rank + 1;
         Debug.Log(selected_value_rank);
     }
 

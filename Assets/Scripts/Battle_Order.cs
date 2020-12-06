@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class Battle_Order : MonoBehaviour
 {
     //外側から変更するメンバ変数。
-    private int self_id;
-    private int rank;
+    public int self_id;
+    public int rank;
 
 
     //親になる部隊.
@@ -148,7 +148,10 @@ public class Battle_Order : MonoBehaviour
 
 
             //TODO。リストをもらってくる。
-            t1.GetComponent<Battle_order_view>().update_all_ui(af);
+            t1.GetComponent<Battle_order_view>().update_all_ui(af,Rank);
+            //Debug.Log(rank);
+
+            //ここの処理について。
 
             //リスト作成用。
             list_child.Add(t1);

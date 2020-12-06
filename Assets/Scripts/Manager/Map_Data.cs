@@ -631,7 +631,7 @@ public class Map_Data : MonoBehaviour
         ins_bato.name = "battle_order" + af.Air_fleet_id;
 
         //UI更新
-        ins_bato.GetComponent<Battle_order_view>().update_all_ui(af);
+        ins_bato.GetComponent<Battle_order_view>().update_all_ui(af,0);
 
         //戦闘序列側が持っている処理を追加する。
         //こっちは親の組織IDをもたせる。
