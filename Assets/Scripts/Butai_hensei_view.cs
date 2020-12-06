@@ -15,7 +15,8 @@ public class Butai_hensei_view : MonoBehaviour
     [SerializeField]
     private Dropdown dd_rank;
 
-    private int selected_value;
+    private int selected_value_type;
+    private int selected_value_rank;
 
     private Air_Fleet self_af;
 
@@ -54,11 +55,15 @@ public class Butai_hensei_view : MonoBehaviour
 
     public void Get_drop_type()
     {
-        selected_value = dd_type.value;
+        selected_value_type = dd_type.value;
         
     }
 
-   
+    public void Get_drop_rank()
+    {
+        selected_value_rank = dd_rank.value;
+        Debug.Log(selected_value_rank);
+    }
 
 
     // Update is called once per frame
@@ -77,7 +82,9 @@ public class Butai_hensei_view : MonoBehaviour
         //int parent_id,int rank_parent , int rank_child)
 
         //gameobject
-        GameObject.Find("MapManager").GetComponent<Map_Data>().Create_new_org(Self_af.Air_fleet_id, Self_af.Air_fleet_battle_order_rank, Self_af.Air_fleet_battle_order_rank  + 1);
+        Debug.Log(selected_value_rank);
+
+        GameObject.Find("MapManager").GetComponent<Map_Data>().Create_new_org(Self_af.Air_fleet_id, Self_af.Air_fleet_battle_order_rank, selected_value_rank);
 
     }
 

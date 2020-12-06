@@ -16,10 +16,10 @@ public enum unit_type
 
 }
 
-public enum unit_rank
+public enum unit_rank:byte
 {
     //
-    総軍
+    総軍 =1
     ,方面軍
     ,軍
     ,師団
