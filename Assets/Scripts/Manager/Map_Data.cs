@@ -16,7 +16,7 @@ public enum unit_type
 
 }
 
-public enum unit_rank:byte
+public enum unit_rank:int
 {
     //
     総軍 =1

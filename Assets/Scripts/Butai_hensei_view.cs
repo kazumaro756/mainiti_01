@@ -26,17 +26,49 @@ public class Butai_hensei_view : MonoBehaviour
     void Start()
     {
         Update_enum<unit_type>(dd_type);
-        Update_enum<unit_rank>(dd_rank);
+        //Update_enum<unit_rank>(dd_rank);
+
+        Limit_rank(dd_rank, self_af.Air_fleet_battle_order_rank);
+
     }
 
     //ただし、選びホーダイというわけではないので注意。自分のランクより低いものを使うべき。自分自身を知らないことにはな。
 
 
+    public void Limit_rank(Dropdown drop,int selfrank)
+    {
+        List<int> list_int = new List<int>();
+        List<string> list_string = new List<string>();
+
+        //使えるもののみ利用。
+        foreach (int a in System.Enum.GetValues(typeof(unit_rank)))
+        {
+            if (a > selfrank) { list_int.Add(a); }
+        }
+
+        //使えるものリストから抽出して、文字列のデータを作る。
+        foreach(int a in list_int)
+        {
+            unit_rank enumValue = (unit_rank)System.Enum.ToObject(typeof(unit_rank), a);
+            string enum_string = System.Enum.GetName(typeof(unit_rank), enumValue);
+            list_string.Add(enum_string);
+
+        }
+        //DropDownの要素にリストを追加
+        drop.AddOptions(list_string);
+    }
+
 
     public void Update_enum<T>(Dropdown drop) where T : struct
     {
+
+        
+
         //EnumをStringの配列に変換
         string[] enumNames = System.Enum.GetNames(typeof(T));
+
+        
+
 
         //Stringの配列をリストに変換
         List<string> names = new List<string>(enumNames);
@@ -61,7 +93,8 @@ public class Butai_hensei_view : MonoBehaviour
 
     public void Get_drop_rank()
     {
-        selected_value_rank = dd_rank.value;
+        //このとり方だとenum側と合わなくなるのですよ。
+        selected_value_rank = dd_rank.value + self_af.Air_fleet_battle_order_rank;
         Debug.Log(selected_value_rank);
     }
 
