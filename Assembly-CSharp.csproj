@@ -64,6 +64,8 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Base_Button_controller.cs" />
     <Compile Include="Assets\Scripts\basic_class\Aircraft.cs" />
+    <Compile Include="Assets\Scripts\basic_class\Bullet.cs" />
+    <Compile Include="Assets\Scripts\basic_class\Character.cs" />
     <Compile Include="Assets\Scripts\basic_class\Ship.cs" />
     <Compile Include="Assets\Scripts\basic_class\Unit.cs" />
     <Compile Include="Assets\Scripts\basic_class\Weapon.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="Assets\Scripts\Battle_Order.cs" />
     <Compile Include="Assets\Scripts\Battle_order_view.cs" />
     <Compile Include="Assets\Scripts\Butai_hensei_view.cs" />
+    <Compile Include="Assets\Scripts\Castle.cs" />
     <Compile Include="Assets\Scripts\common\Change_button_name.cs" />
     <Compile Include="Assets\Scripts\common\exit_ui_panel.cs" />
     <Compile Include="Assets\Scripts\common\prefab_related\Prefab_UI.cs" />

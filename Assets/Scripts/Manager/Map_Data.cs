@@ -658,9 +658,19 @@ public class Map_Data : MonoBehaviour
         //序列に対して追加 // BO自体のID、親のID、子のID
         Battle_order box = new Battle_order(org_bo,parent_id , org_num);
 
-        //UIの更新。
         list_battle_ordre.Add(box);
     }
 
+
+
+    public void Create_Supreme_org()
+    {
+        org_num += 1;
+        Air_Fleet af_xxx = new Air_Fleet("第一歩兵連隊", org_num, 3, 40, 1, 20, "コアリション", 30, "D2Y1", 4);
+        list_air_fleet.Add(af_xxx);
+
+        Create_battle_order(af_xxx);
+
+    }
 
 }
