@@ -16,7 +16,7 @@ public class Character : MonoBehaviour
     [SerializeField] private GameObject[] enemies;
 
     //ここで設定しているターゲットとはなんぞや。
-    [SerializeField] private string attackTag; //Inspectorで設定
+    //[SerializeField] private string attackTag; //Inspectorで設定
 
     private float stopDistance;
     private float attackTimer;
@@ -27,6 +27,7 @@ public class Character : MonoBehaviour
     //ここまでInspectorで設定
 
     //敵味方フラグ。これはプレイヤー側視点に立ったときの理屈で書いている。
+    [SerializeField]
     private bool zinei_flg;
 
     //
@@ -49,14 +50,13 @@ public class Character : MonoBehaviour
     [SerializeField]
     private GameObject target_of_fire;
 
-    //大正リスト
+    //対象リスト
     public List<GameObject> list_hitted_ships = new List<GameObject>();
 
     //攻撃感覚を指定するコルーチン
     private IEnumerator corutin_fire;
 
-
-
+    public int Hp { get => hp; set => hp = value; }
 
 
     //ナヴィメッシュを取得。
@@ -67,57 +67,53 @@ public class Character : MonoBehaviour
 
     private void Start()
     {
-        target = GameObject.Find(attackTag + "Castle");
         isAttack = false;
     }
+
+    //アップデート関数。将来的にはこれはイベントベースにしたい。
     private void Update()
     {
-        //if (target == null)
-        //{
-        //    target = GameObject.Find(attackTag + "Castle");
 
-        //}
-
-        SetStopDistance();
-
-        //索敵
-        Rader(100,false);
-
-        if (target != null)
+        if(hp > 0)
         {
-            agent.SetDestination(target.transform.position);
+            SetStopDistance();
 
-            //射程内にターゲットがいるときの処理、ということになっている。実質的には。
-            if (Vector3.Distance(transform.position, target.transform.position) <= stopDistance)
+            if (target == null)
             {
-                
-                isAttack = true;
-                agent.speed = 0;
+                //索敵 これを無条件に放つのはもったいないので、ターゲットがいなければ、という条件付きに変える。
+                Rader(100, zinei_flg);
             }
 
-            if (isAttack)
+            if (target != null)
             {
-                //CheckNearTarget();
-                
-                SetStopDistance(); //攻撃中にtargetが変わった時のためにここでも記述
-                Attack();
+                //ターゲット
+                agent.SetDestination(target.transform.position);
+
+                //ここの処理がありえんほど重い
+                //射程内にターゲットがいるときの処理、ということになっている。実質的には。
+                if (Vector3.Distance(transform.position, target.transform.position) <= stopDistance)
+                {
+                    isAttack = true;
+                    agent.speed = 0;
+                }
+
+                if (isAttack)
+                {
+                    SetStopDistance(); //攻撃中にtargetが変わった時のためにここでも記述
+                    Attack();
+                }
             }
+
         }
-        
+        else
+        {
+            //死ぬときゃしぬ。
+            Die_when_die();
 
+        }
 
     }
-    
-    //targetが近くにいるのかどうか判定する
-    //private void CheckNearTarget()
-    //{
-    //    if (Vector3.Distance(transform.position, target.transform.position) > stopDistance)
-    //    {
-    //        isAttack = false;
-    //        agent.speed = 1;
-    //    }
-    //}
-
+   
     //停止距離を指定。
     private void SetStopDistance()
     {
@@ -139,26 +135,6 @@ public class Character : MonoBehaviour
         }
     }
 
-    //この関数は一番近くにいるものをターゲットとしているわけですが、foreachを回しているのがアホ。もうちょっと素朴な実装にしたい。
-    //private void FintTarget()
-    //{
-    //    enemies = GameObject.FindGameObjectsWithTag(attackTag);
-
-    //    if(enemies.Count<GameObject>() > 0)
-    //    {
-    //        float closestDistance = Vector3.Distance(transform.position, target.transform.position);
-
-    //        foreach (GameObject enemy in enemies)
-    //        {
-    //            if (Vector3.Distance(transform.position, enemy.transform.position) < closestDistance)
-    //            {
-    //                target = enemy;
-    //            }
-    //        }
-
-    //    }
-
-    //}
 
     //攻撃処理。全般に言えるけど、攻撃側が死亡判定を持つのは変なので実装を変える。
     private void Attack()
@@ -238,13 +214,13 @@ public class Character : MonoBehaviour
             //自分自身の座標を取得
             Vector3 pos = transform.position;
             //玉を表示するポジションを表示
-            pos.y += 1.5f;
+            pos.y += 3f;
 
             //砲弾をインスタンス化。
             GameObject bullet_obj = Instantiate(ballet, pos, Quaternion.identity) as GameObject;
 
             //砲弾に自分自身の陣営を教えてあげる。一旦ここは見方しかいないのでOK。フレンドリーファイアを管理している。
-            bullet_obj.GetComponent<Bullet>().Flag_my_position = true;
+            // bullet_obj.GetComponent<Bullet>().Flag_my_position = zinei_flg;
 
             //ターゲットはここに与える。こっちがわのターゲットは関係ない。
             bullet_obj.GetComponent<Bullet>().target = target;
@@ -278,10 +254,12 @@ public class Character : MonoBehaviour
         Ray ray = new Ray(transform.position, transform.forward);
 
         //リストが失敗したときの処理。
-        //これはいらん。
-
+        //hitted_obj
+        //RaycastHit[] neko; 
         //あたったもののリスト
+        //
         list_hitted_ships = Physics.SphereCastAll(transform.position, rader_range, transform.forward, 0.01f).Select(h => h.transform.gameObject).ToList();
+        //neko = Physics.SphereCastAll(transform.position, rader_range, transform.forward, 0.01f);
 
         //tagによって敵味方識別
         if (z_flg)
@@ -295,7 +273,25 @@ public class Character : MonoBehaviour
 
         if (list_hitted_ships.Count > 0)
         {//リストの中身が何かしら残っているときは、これの一つを探す。これはなんかガバガバすぎるんではないか……
-            target = list_hitted_ships[0];
+            //ここの中身の処理に関しては、以上で考える。
+            //もっとも近いものを治す
+
+            float min_distance = float.MaxValue;
+            foreach (GameObject hitted in list_hitted_ships)
+            {
+                float target_distance = Vector3.Distance(transform.position, hitted.transform.position);
+
+                //最短が見つかった場合
+                if(target_distance < min_distance)
+                {
+                    min_distance = target_distance;
+                    target = hitted.transform.gameObject;
+
+                }
+
+            }
+
+            //target = list_hitted_ships[0];
         }
         else
         {//リストの中身がないならやめておく。
@@ -304,6 +300,15 @@ public class Character : MonoBehaviour
 
     }
 
+
+    //死ぬときに死ぬ。
+    private void Die_when_die()
+    {
+        if (hp <= 0)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
 
 

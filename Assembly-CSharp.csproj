@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\common\prefab_related\Prefab_UI.cs" />
     <Compile Include="Assets\Scripts\common\prefab_related\Prefab_UI_airfleet_task.cs" />
     <Compile Include="Assets\Scripts\Management.cs" />
+    <Compile Include="Assets\Scripts\Manager\Battle_Manager.cs" />
     <Compile Include="Assets\Scripts\Manager\Map_Data.cs" />
     <Compile Include="Assets\Scripts\Manager\Unit_Data.cs" />
     <Compile Include="Assets\Scripts\Naval_Manager.cs" />

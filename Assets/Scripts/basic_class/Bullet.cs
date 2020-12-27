@@ -21,10 +21,10 @@ public class Bullet : MonoBehaviour
     public GameObject target;
 
     //ダメージ量。外からも知ってもらうためにプロパテぃで定義
-    private float damage;
+    private int damage;
 
 
-    public float Damage { get => damage; set => damage = value; }
+    public int Damage { get => damage; set => damage = value; }
     public bool Flag_my_position { get => flag_my_position; set => flag_my_position = value; }
 
 
@@ -72,7 +72,7 @@ public class Bullet : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         //不慮の事故でモデルを持ってないオブジェクトにあたったときの処理。
-        if (collision.gameObject.GetComponent<Castle>() == null)
+        if (collision.gameObject.GetComponent<Character>() == null)
         {
 
             //Debug.Log("aaaaa");
@@ -82,7 +82,7 @@ public class Bullet : MonoBehaviour
         else
         {
             //あたった対象に対してダメージを与える。
-            collision.gameObject.GetComponent<Castle>().Hp -= damage;
+            collision.gameObject.GetComponent<Character>().Hp -= damage;
             //Debug.Log(collision.gameObject.name); // ぶつかった相手の名前を取得
             //あたったら破壊。
             Destroy(this.gameObject);

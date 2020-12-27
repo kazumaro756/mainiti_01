@@ -280,6 +280,26 @@ public class HR_transaction {
     }
 }
 
+
+public class Infantry{
+    private int id;
+    private string name;
+    private string kaikyuu;
+    private int hp;
+    private int power; //ここはあとで武装する感じに変える。
+    private int faction_id;
+
+    public Infantry(int id, string name, string kaikyuu, int hp, int power, int faction_id)
+    {
+        this.id = id;
+        this.name = name;
+        this.kaikyuu = kaikyuu;
+        this.hp = hp;
+        this.power = power;
+        this.faction_id = faction_id;
+    }
+}
+
 //武装
 public class Weapon 
 {
@@ -312,17 +332,7 @@ public class Weapon
     }
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     //武器の使用。
     public void Using_arm<Type>(Type tgt)
@@ -394,6 +404,13 @@ public class Map_Data : MonoBehaviour
 
     public List<Battle_order> List_battle_ordre { get => list_battle_ordre; set => list_battle_ordre = value; }
     public List<Air_Fleet> List_air_fleet { get => list_air_fleet; set => list_air_fleet = value; }
+    public List<Infantry> List_infantry_butai { get => list_infantry_butai; set => list_infantry_butai = value; }
+    public List<Infantry> List_infantry_enemy { get => list_infantry_enemy; set => list_infantry_enemy = value; }
+
+
+    //歩兵部隊。
+    private List<Infantry> list_infantry_butai = new List<Infantry>();
+    private List<Infantry> list_infantry_enemy = new List<Infantry>();
 
 
     //部隊数
@@ -516,6 +533,33 @@ public class Map_Data : MonoBehaviour
 
         //
         Create_battle_order(af1);
+
+
+
+        //歩兵味方
+        Infantry if1 = new Infantry(1, "近藤十次郎","二等兵",100,2,1);
+        Infantry if2 = new Infantry(2, "かまど炭治郎", "二等兵", 100, 2, 1);
+        Infantry if3 = new Infantry(3, "冨岡義勇", "二等兵", 100, 2, 1);
+        Infantry if4 = new Infantry(4, "かまど裕次郎", "二等兵", 100, 2, 1);
+        Infantry if5 = new Infantry(5, "ダライ・ラマ", "二等兵", 100, 2, 1);
+
+        //歩兵敵
+        Infantry if1ene = new Infantry(6, "近藤十次郎", "二等兵", 100, 2, 2);
+        Infantry if2ene = new Infantry(7, "かまど炭治郎", "二等兵", 100, 2, 2);
+        Infantry if3ene = new Infantry(8, "冨岡義勇", "二等兵", 100, 2, 2);
+
+        //歩兵関連。
+        list_infantry_butai.Add(if1);
+        list_infantry_butai.Add(if2);
+        list_infantry_butai.Add(if3);
+        list_infantry_butai.Add(if4);
+        list_infantry_butai.Add(if5);
+
+        list_infantry_enemy.Add(if1ene);
+        list_infantry_enemy.Add(if2ene);
+        list_infantry_enemy.Add(if3ene);
+
+
 
     }
 
