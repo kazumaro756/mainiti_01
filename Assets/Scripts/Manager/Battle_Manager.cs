@@ -12,6 +12,7 @@ public class Battle_Manager : MonoBehaviour
     List<Infantry> lf_butai = new List<Infantry>();
     List<Infantry> lf_enemy = new List<Infantry>();
 
+    //
 
     [SerializeField]
     GameObject inf_unit;
@@ -22,7 +23,6 @@ public class Battle_Manager : MonoBehaviour
         //インスタンス化された部隊の取得。
         lf_butai = GameObject.Find("Map_Manager").GetComponent<Map_Data>().List_infantry_butai;
         lf_enemy = GameObject.Find("Map_Manager").GetComponent<Map_Data>().List_infantry_enemy;
-
         //リスト内の諸々の物理的な配置。
 
     }
@@ -32,10 +32,6 @@ public class Battle_Manager : MonoBehaviour
     {
         
     }
-
-
-    
-
 
 
     //リストをもらって物理的に配置する処理。

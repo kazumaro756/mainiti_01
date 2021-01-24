@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\battle_manager.cs" />
     <Compile Include="Assets\Scripts\Battle_Order.cs" />
     <Compile Include="Assets\Scripts\Battle_order_view.cs" />
+    <Compile Include="Assets\Scripts\BattleManager.cs" />
     <Compile Include="Assets\Scripts\Butai_hensei_view.cs" />
     <Compile Include="Assets\Scripts\Castle.cs" />
     <Compile Include="Assets\Scripts\common\Change_button_name.cs" />
@@ -91,6 +92,9 @@
     <Compile Include="Assets\Scripts\UI\CameraController.cs" />
     <Compile Include="Assets\Scripts\UI\CameraMover.cs" />
     <Compile Include="Assets\Scripts\UI\SceneViewCamera.cs" />
+    <Compile Include="Assets\Scripts\UI\Ship_Ui_Controller.cs" />
+    <Compile Include="Assets\Scripts\UI\UI_logging_text_controller.cs" />
+    <Compile Include="Assets\Scripts\UI\UIController_WorldSpace.cs" />
     <Compile Include="Assets\Scripts\UI_system_list_panel.cs" />
     <Compile Include="Assets\Scripts\View_Airfleets.cs" />
     <Compile Include="Assets\Scripts\View_Battle.cs" />
@@ -301,6 +305,12 @@
     </Reference>
     <Reference Include="UnityEngine.XRModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.15f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.15f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.15f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.15f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

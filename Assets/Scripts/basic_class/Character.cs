@@ -76,10 +76,13 @@ public class Character : MonoBehaviour
 
         if(hp > 0)
         {
+
             SetStopDistance();
 
             if (target == null)
             {
+                //これがアホっぽい。
+
                 //索敵 これを無条件に放つのはもったいないので、ターゲットがいなければ、という条件付きに変える。
                 Rader(100, zinei_flg);
             }
