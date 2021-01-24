@@ -20,6 +20,10 @@ public class Ship_Ui_Controller : MonoBehaviour
     [SerializeField]
     GameObject attacking_obj;
 
+
+    [SerializeField]
+    Slider slider_hp;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,5 +63,12 @@ public class Ship_Ui_Controller : MonoBehaviour
     {
         attacking_obj.SetActive(false);
     }
+
+    //HPバーの更新。
+    public void UpdateHpSlider(int hp ,int max_hp)
+    {
+        slider_hp.GetComponent<Slider>().value = hp * 1.0f / max_hp * 1.0f;
+    }
+
 
 }

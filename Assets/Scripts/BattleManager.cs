@@ -10,8 +10,11 @@ public class Attack_log
     public bool hit_flg;
     public bool sunk_flg;
     public int weapon_type_id;
+    //ここからは数値系追加
+    public int after_atk_hp;
+    public int max_hp;
 
-    public Attack_log(int log_id, int attack_ship_id, int attacked_ship_id, bool hit_flg, bool sunk_flg, int weapon_type_id)
+    public Attack_log(int log_id, int attack_ship_id, int attacked_ship_id, bool hit_flg, bool sunk_flg, int weapon_type_id  , int after_atk_hp,int max_hp)
     {
         this.log_id = log_id;
         this.attack_ship_id = attack_ship_id;
@@ -19,6 +22,8 @@ public class Attack_log
         this.hit_flg = hit_flg;
         this.sunk_flg = sunk_flg;
         this.weapon_type_id = weapon_type_id;
+        this.after_atk_hp = after_atk_hp;
+        this.max_hp = max_hp;
     }
 }
 
@@ -29,16 +34,18 @@ public class Ship_test
     public string ship_name;
     public string ship_class;
     public bool enemy_flg;
+    public int max_hp;
     public int hp;
     public int atk_point;
     public int agility;
 
-    public Ship_test(int ship_id, string ship_name, string ship_class, bool enemy_flg, int hp, int atk_point, int agility)
+    public Ship_test(int ship_id, string ship_name, string ship_class, bool enemy_flg, int max_hp, int hp, int atk_point, int agility)
     {
         this.ship_id = ship_id;
         this.ship_name = ship_name;
         this.ship_class = ship_class;
         this.enemy_flg = enemy_flg;
+        this.max_hp = max_hp;
         this.hp = hp;
         this.atk_point = atk_point;
         this.agility = agility;
@@ -84,7 +91,7 @@ public class Ship_test
             //Debug.Log(this.ship_name + "は攻撃失敗した。");
         }
 
-        Attack_log al = new  Attack_log(1,this.ship_id,enemy_ship.ship_id,flg_hit,flg_sunk,1);
+        Attack_log al = new  Attack_log(1,this.ship_id,enemy_ship.ship_id,flg_hit,flg_sunk,1,enemy_ship.hp,enemy_ship.max_hp);
 
         return al;
 
@@ -94,15 +101,25 @@ public class Ship_test
     //索敵
     public Ship_test Search(List<Ship_test> list_ships)
     {
-        //自分と異なる部隊を選択。
-        //ここの条件は適用されないかもしれん。
-        List<Ship_test> result_rist = list_ships.FindAll(a => a.enemy_flg != this.enemy_flg);
+        //自分と異なる部隊を選択。 条件としては、敵かつ生存を条件にしている。
+        List<Ship_test> result_rist = list_ships.FindAll(a => a.enemy_flg != this.enemy_flg & a.hp > 0  );
 
-        //対象を一つに対象。。
-        Ship_test hoge = result_rist[Random.Range(0, result_rist.Count)];
+        Debug.Log(this.ship_name +"についての対象となりうる敵船数"+  result_rist.Count);
 
-        
-        return hoge;
+        if(result_rist.Count> 0 & this.hp > 0)
+        {
+            Debug.Log(this.ship_name + "対象選定フラグ");
+
+            //敵が生存している&自分が生きている。
+            //対象を一つに対象。。
+            Ship_test hoge = result_rist[Random.Range(0, result_rist.Count)];
+
+            return hoge;
+        }
+        else
+        {
+            return null;
+        }
 
         //ランダムなレンジから取得する。
 
@@ -129,16 +146,16 @@ public class BattleManager : MonoBehaviour
     void Start()
     {
         //艦隊の初期配置を設定。
-        Ship_test fune1 = new Ship_test(0,"DD 吹雪","DD1",false,300,10,20);
-        Ship_test fune2 = new Ship_test(1, "DD 初雪", "DD1", false, 300, 10, 20);
-        Ship_test fune3 = new Ship_test(2, "DD 深雪", "DD1", false, 300, 10, 20);
-        Ship_test fune4 = new Ship_test(3, "DD 睦月", "DD1", false, 300, 10, 30);
-        Ship_test fune5 = new Ship_test(4, "DD 長良", "DD1", false, 300, 10, 20);
+        Ship_test fune1 = new Ship_test(0, "DD 吹雪", "DD1", false,300, 300, 50, 20);
+        Ship_test fune2 = new Ship_test(1, "DD 初雪", "DD1", false, 300, 300, 50, 20);
+        Ship_test fune3 = new Ship_test(2, "DD 深雪", "DD1", false, 300, 300, 50, 20);
+        Ship_test fune4 = new Ship_test(3, "DD 睦月", "DD1", false, 300, 300, 50, 30);
+        Ship_test fune5 = new Ship_test(4, "DD 長良", "DD1", false, 300, 300, 50, 20);
 
 
-        Ship_test e_fune1 = new Ship_test(5, "AK A式輸送艦_1", "AK1", true, 300, 2, 10);
-        Ship_test e_fune2 = new Ship_test(6, "AK A式輸送艦_2", "AK1",true, 300, 2, 10);
-        Ship_test e_fune3 = new Ship_test(7, "AK A式輸送艦_3", "AK1",true, 300, 2, 10);
+        Ship_test e_fune1 = new Ship_test(5, "AK A式輸送艦_1", "AK1", true, 100, 100, 2, 10);
+        Ship_test e_fune2 = new Ship_test(6, "AK A式輸送艦_2", "AK1",true, 100, 100, 2, 10);
+        Ship_test e_fune3 = new Ship_test(7, "AK A式輸送艦_3", "AK1",true, 100, 100, 2, 10);
 
 
         ship_list.Add(fune1);
@@ -152,18 +169,37 @@ public class BattleManager : MonoBehaviour
         ship_list.Add(e_fune3);
 
 
-        //ここから実際の処理パート。
+
+        
+
+    }
+
+    //戦闘セッションのラッパー
+    public void BattleSessionWrapper()
+    {
         //配置
         DeployFleet();
 
+        //戦闘処理。
+        //ProcessBattle();
+
+        //処理結果を映像として動く。
+        //StartCoroutine(PlayBattle(atk_log_list));
+
+    }
+
+    //追撃系
+    public void BattleSessionTsuigeki()
+    {
         //戦闘処理。
         ProcessBattle();
 
         //処理結果を映像として動く。
         StartCoroutine(PlayBattle(atk_log_list));
-        
+
 
     }
+
 
     //戦闘処理。
     public void ProcessBattle()
@@ -181,9 +217,20 @@ public class BattleManager : MonoBehaviour
             //Debug.Log("これから処理が始まるのは" + st.ship_name);
 
             //索敵および攻撃を実施し、それの結果帰ってくるログをリストに配置する。
-
+            Debug.Log(st.ship_name + "のサーチ&デストロイ");
+            //索敵の結果、もし対象があるのであれば普通の処理
+            if(st.Search(ship_list) != null)
+            {
+                //索敵の結果、もし対象があるのであれば普通の処理
+                atk_log_list.Add(st.Attack(st.Search(ship_list)));
+            }
+            else
+            {
+                //索敵の結果がないのであれば処理は抜ける。特にログも吐かない。
+                //break;
+            }
             
-            atk_log_list.Add(st.Attack(st.Search(ship_list)));
+            
             
         }
 
@@ -222,9 +269,18 @@ public class BattleManager : MonoBehaviour
                 //ship_list[log.attacked_ship_id]
                 //ここで攻撃された人を指定して爆発させる。
                 ship_obj_list.Find(m => m.name == log.attacked_ship_id.ToString()).GetComponent<Ship_Ui_Controller>().Explode();
+
+                //HPバーを更新する。
+                ship_obj_list.Find(m => m.name == log.attacked_ship_id.ToString()).GetComponent<Ship_Ui_Controller>().UpdateHpSlider(log.after_atk_hp,log.max_hp);
+
                 yield return new WaitForSeconds(2);
 
             }
+
+
+            //攻撃終了。
+            ship_obj_list.Find(m => m.name == log.attack_ship_id.ToString()).GetComponent<Ship_Ui_Controller>().Finish_attacking();
+            ship_obj_list.Find(m => m.name == log.attacked_ship_id.ToString()).GetComponent<Ship_Ui_Controller>().Finish_attacking();
 
             //轟沈していたら轟沈描写&ログ。
             if (log.sunk_flg)
@@ -233,13 +289,28 @@ public class BattleManager : MonoBehaviour
 
                 LoggingSystem(ship_list[log.attacked_ship_id].ship_name + "は轟沈中……");
 
+
+                //沈没しているので壊す。
+                Destroy(ship_obj_list.Find(m => m.name == log.attacked_ship_id.ToString()));
+
+                //リストからも除外しないと他のところが狂うので削除する。
+                //2つのリストから削除しないといけないんでは。
+                ship_obj_list.Remove(ship_obj_list.Find(m => m.name == log.attacked_ship_id.ToString()));
+
+
+
+
                 yield return new WaitForSeconds(2);
             }
 
-            //攻撃終了。
-            ship_obj_list.Find(m => m.name == log.attack_ship_id.ToString()).GetComponent<Ship_Ui_Controller>().Finish_attacking();
-            ship_obj_list.Find(m => m.name == log.attacked_ship_id.ToString()).GetComponent<Ship_Ui_Controller>().Finish_attacking();
+
         }
+
+        //セッションは一巡して終了
+        LoggingSystem("セッションは一巡して終了");
+
+        //処理がすべて終了したらログリストを削除。
+        list_logs.Clear();
 
     }
 
@@ -311,6 +382,10 @@ public class BattleManager : MonoBehaviour
 
         //艦名を表示
         ship_object.GetComponent<Ship_Ui_Controller>().UPdateUI(ship);
+
+
+        //hpバーを指定する。
+        ship_object.GetComponent<Ship_Ui_Controller>().UpdateHpSlider(ship.hp,ship.max_hp);
 
         //列に加え入れる.
         ship_obj_list.Add(ship_object);
