@@ -13,8 +13,11 @@ public class Attack_log
     //ここからは数値系追加
     public int after_atk_hp;
     public int max_hp;
+    //ここから下は轟沈したときのレワードマネー
+    public int reward_money;
 
-    public Attack_log(int log_id, int attack_ship_id, int attacked_ship_id, bool hit_flg, bool sunk_flg, int weapon_type_id  , int after_atk_hp,int max_hp)
+
+    public Attack_log(int log_id, int attack_ship_id, int attacked_ship_id, bool hit_flg, bool sunk_flg, int weapon_type_id  , int after_atk_hp,int max_hp, int reward_money)
     {
         this.log_id = log_id;
         this.attack_ship_id = attack_ship_id;
@@ -24,6 +27,7 @@ public class Attack_log
         this.weapon_type_id = weapon_type_id;
         this.after_atk_hp = after_atk_hp;
         this.max_hp = max_hp;
+        this.reward_money = reward_money;
     }
 }
 
@@ -38,8 +42,10 @@ public class Ship_test
     public int hp;
     public int atk_point;
     public int agility;
+    public int reward_money;
 
-    public Ship_test(int ship_id, string ship_name, string ship_class, bool enemy_flg, int max_hp, int hp, int atk_point, int agility)
+
+    public Ship_test(int ship_id, string ship_name, string ship_class, bool enemy_flg, int max_hp, int hp, int atk_point, int agility , int reward_money)
     {
         this.ship_id = ship_id;
         this.ship_name = ship_name;
@@ -49,8 +55,8 @@ public class Ship_test
         this.hp = hp;
         this.atk_point = atk_point;
         this.agility = agility;
+        this.reward_money = reward_money;
     }
-    //
 
     //攻撃。
     public Attack_log Attack(Ship_test enemy_ship)
@@ -76,25 +82,27 @@ public class Ship_test
             if(enemy_ship.hp <= 0)
             {
                 flg_sunk = true;
+                reward_money = enemy_ship.reward_money;
             }
             else
             {
                 flg_sunk = false;
+                reward_money = 0;
             }
-
 
         }
         else
         {
             flg_hit = false;
             flg_sunk = false;
+            reward_money = 0;
             //Debug.Log(this.ship_name + "は攻撃失敗した。");
         }
 
-        Attack_log al = new  Attack_log(1,this.ship_id,enemy_ship.ship_id,flg_hit,flg_sunk,1,enemy_ship.hp,enemy_ship.max_hp);
+
+        Attack_log al = new  Attack_log(1,this.ship_id,enemy_ship.ship_id,flg_hit,flg_sunk,1,enemy_ship.hp,enemy_ship.max_hp,reward_money);
 
         return al;
-
 
     }
 
@@ -141,21 +149,24 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     GameObject logging_area;
 
+    [SerializeField]
+    GameObject ResouceManager;
+
     //戦闘を設計する。
     // Start is called before the first frame update
     void Start()
     {
         //艦隊の初期配置を設定。
-        Ship_test fune1 = new Ship_test(0, "DD 吹雪", "DD1", false,300, 300, 50, 20);
-        Ship_test fune2 = new Ship_test(1, "DD 初雪", "DD1", false, 300, 300, 50, 20);
-        Ship_test fune3 = new Ship_test(2, "DD 深雪", "DD1", false, 300, 300, 50, 20);
-        Ship_test fune4 = new Ship_test(3, "DD 睦月", "DD1", false, 300, 300, 50, 30);
-        Ship_test fune5 = new Ship_test(4, "DD 長良", "DD1", false, 300, 300, 50, 20);
+        Ship_test fune1 = new Ship_test(0, "DD 吹雪", "DD1", false,300, 300, 50, 20,100);
+        Ship_test fune2 = new Ship_test(1, "DD 初雪", "DD1", false, 300, 300, 50, 20, 100);
+        Ship_test fune3 = new Ship_test(2, "DD 深雪", "DD1", false, 300, 300, 50, 20, 100);
+        Ship_test fune4 = new Ship_test(3, "DD 睦月", "DD1", false, 300, 300, 50, 30, 100);
+        Ship_test fune5 = new Ship_test(4, "DD 長良", "DD1", false, 300, 300, 50, 20, 100);
 
 
-        Ship_test e_fune1 = new Ship_test(5, "AK A式輸送艦_1", "AK1", true, 100, 100, 2, 10);
-        Ship_test e_fune2 = new Ship_test(6, "AK A式輸送艦_2", "AK1",true, 100, 100, 2, 10);
-        Ship_test e_fune3 = new Ship_test(7, "AK A式輸送艦_3", "AK1",true, 100, 100, 2, 10);
+        Ship_test e_fune1 = new Ship_test(5, "AK A式輸送艦_1", "AK1", true, 100, 100, 2, 10, 100);
+        Ship_test e_fune2 = new Ship_test(6, "AK A式輸送艦_2", "AK1",true, 100, 100, 2, 10, 100);
+        Ship_test e_fune3 = new Ship_test(7, "AK A式輸送艦_3", "AK1",true, 100, 100, 2, 10, 100);
 
 
         ship_list.Add(fune1);
@@ -230,9 +241,10 @@ public class BattleManager : MonoBehaviour
                 //break;
             }
             
-            
-            
         }
+        //ここで指揮を
+
+
 
     }
 
@@ -243,8 +255,12 @@ public class BattleManager : MonoBehaviour
     {
         Debug.Log(list_logs.Count + "ログの全量");
 
+        int money_output = 0;
+
+        //処理。
         foreach (Attack_log log in list_logs)
         {
+
             //Debug.Log(ship_list[log.attack_ship_id].ship_name + "day");
             //Debug.Log(log.attack_ship_id + "ログないの攻撃湿布ID");
 
@@ -289,7 +305,6 @@ public class BattleManager : MonoBehaviour
 
                 LoggingSystem(ship_list[log.attacked_ship_id].ship_name + "は轟沈中……");
 
-
                 //沈没しているので壊す。
                 Destroy(ship_obj_list.Find(m => m.name == log.attacked_ship_id.ToString()));
 
@@ -297,14 +312,25 @@ public class BattleManager : MonoBehaviour
                 //2つのリストから削除しないといけないんでは。
                 ship_obj_list.Remove(ship_obj_list.Find(m => m.name == log.attacked_ship_id.ToString()));
 
-
-
-
                 yield return new WaitForSeconds(2);
             }
 
+            Debug.Log(money_output + "処理前");
+            //報酬になっている。
+            money_output += log.reward_money;
+
+            Debug.Log(money_output + "処理後");
+
 
         }
+
+        
+
+        //戦闘終了時の得た金額。
+        ResouceManager.GetComponent<ResourceManager>().GetMoneyFromEnemy(money_output);
+
+        //ロギング
+        LoggingSystem(money_output + "円の報酬得た");
 
         //セッションは一巡して終了
         LoggingSystem("セッションは一巡して終了");

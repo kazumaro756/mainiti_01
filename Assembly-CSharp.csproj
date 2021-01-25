@@ -82,6 +82,7 @@
     <Compile Include="Assets\Scripts\Management.cs" />
     <Compile Include="Assets\Scripts\Manager\Battle_Manager.cs" />
     <Compile Include="Assets\Scripts\Manager\Map_Data.cs" />
+    <Compile Include="Assets\Scripts\Manager\ResourceManager.cs" />
     <Compile Include="Assets\Scripts\Manager\Unit_Data.cs" />
     <Compile Include="Assets\Scripts\Naval_Manager.cs" />
     <Compile Include="Assets\Scripts\Org_manager.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Assets\Scripts\test_base.cs" />
     <Compile Include="Assets\Scripts\UI\CameraController.cs" />
     <Compile Include="Assets\Scripts\UI\CameraMover.cs" />
+    <Compile Include="Assets\Scripts\UI\ResourceUiController.cs" />
     <Compile Include="Assets\Scripts\UI\SceneViewCamera.cs" />
     <Compile Include="Assets\Scripts\UI\Ship_Ui_Controller.cs" />
     <Compile Include="Assets\Scripts\UI\UI_logging_text_controller.cs" />
