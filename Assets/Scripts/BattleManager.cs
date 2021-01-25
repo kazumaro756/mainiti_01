@@ -63,6 +63,7 @@ public class Ship_test
     {
         bool flg_hit;
         bool flg_sunk;
+        int arwd_money;
 
         //攻撃処理。俊敏性が一定より高いと入らなくなる。
         if (Random.Range(1f,100f) > enemy_ship.agility)
@@ -82,12 +83,12 @@ public class Ship_test
             if(enemy_ship.hp <= 0)
             {
                 flg_sunk = true;
-                reward_money = enemy_ship.reward_money;
+                arwd_money = enemy_ship.reward_money;
             }
             else
             {
                 flg_sunk = false;
-                reward_money = 0;
+                arwd_money = 0;
             }
 
         }
@@ -95,12 +96,12 @@ public class Ship_test
         {
             flg_hit = false;
             flg_sunk = false;
-            reward_money = 0;
+            arwd_money = 0;
             //Debug.Log(this.ship_name + "は攻撃失敗した。");
         }
 
 
-        Attack_log al = new  Attack_log(1,this.ship_id,enemy_ship.ship_id,flg_hit,flg_sunk,1,enemy_ship.hp,enemy_ship.max_hp,reward_money);
+        Attack_log al = new  Attack_log(1,this.ship_id,enemy_ship.ship_id,flg_hit,flg_sunk,1,enemy_ship.hp,enemy_ship.max_hp, arwd_money);
 
         return al;
 
@@ -261,6 +262,9 @@ public class BattleManager : MonoBehaviour
         foreach (Attack_log log in list_logs)
         {
 
+            Debug.Log(log.reward_money);
+            Debug.Log(log.sunk_flg);
+            Debug.Log(log.attacked_ship_id);
             //Debug.Log(ship_list[log.attack_ship_id].ship_name + "day");
             //Debug.Log(log.attack_ship_id + "ログないの攻撃湿布ID");
 
