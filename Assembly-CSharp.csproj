@@ -99,6 +99,7 @@
     <Compile Include="Assets\Scripts\UI\Ship_Ui_Controller.cs" />
     <Compile Include="Assets\Scripts\UI\UI_logging_text_controller.cs" />
     <Compile Include="Assets\Scripts\UI\ui_ship_class.cs" />
+    <Compile Include="Assets\Scripts\UI\ui_ship_pool.cs" />
     <Compile Include="Assets\Scripts\UI\UIController_WorldSpace.cs" />
     <Compile Include="Assets\Scripts\UI_system_list_panel.cs" />
     <Compile Include="Assets\Scripts\View_Airfleets.cs" />

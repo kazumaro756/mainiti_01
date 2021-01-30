@@ -43,9 +43,9 @@ public class Ship_test
     public int atk_point;
     public int agility;
     public int reward_money;
+    public string ship_type;
 
-
-    public Ship_test(int ship_id, string ship_name, string ship_class, bool enemy_flg, int max_hp, int hp, int atk_point, int agility , int reward_money)
+    public Ship_test(int ship_id, string ship_name, string ship_class, bool enemy_flg, int max_hp, int hp, int atk_point, int agility , int reward_money , string ship_type)
     {
         this.ship_id = ship_id;
         this.ship_name = ship_name;
@@ -56,6 +56,7 @@ public class Ship_test
         this.atk_point = atk_point;
         this.agility = agility;
         this.reward_money = reward_money;
+        this.ship_type = ship_type;
     }
 
     //攻撃。
@@ -158,16 +159,16 @@ public class BattleManager : MonoBehaviour
     void Start()
     {
         //艦隊の初期配置を設定。
-        Ship_test fune1 = new Ship_test(0, "DD 吹雪", "DD1", false,300, 300, 50, 20,100);
-        Ship_test fune2 = new Ship_test(1, "DD 初雪", "DD1", false, 300, 300, 50, 20, 100);
-        Ship_test fune3 = new Ship_test(2, "DD 深雪", "DD1", false, 300, 300, 50, 20, 100);
-        Ship_test fune4 = new Ship_test(3, "DD 睦月", "DD1", false, 300, 300, 50, 30, 100);
-        Ship_test fune5 = new Ship_test(4, "DD 長良", "DD1", false, 300, 300, 50, 20, 100);
+        Ship_test fune1 = new Ship_test(0, "DD 吹雪", "DD1", false,300, 300, 50, 20,100,"DD");
+        Ship_test fune2 = new Ship_test(1, "DD 初雪", "DD1", false, 300, 300, 50, 20, 100, "DD");
+        Ship_test fune3 = new Ship_test(2, "DD 深雪", "DD1", false, 300, 300, 50, 20, 100, "DD");
+        Ship_test fune4 = new Ship_test(3, "DD 睦月", "DD1", false, 300, 300, 50, 30, 100, "DD");
+        Ship_test fune5 = new Ship_test(4, "DD 長良", "DD1", false, 300, 300, 50, 20, 100, "DD");
 
 
-        Ship_test e_fune1 = new Ship_test(5, "AK A式輸送艦_1", "AK1", true, 100, 100, 2, 10, 100);
-        Ship_test e_fune2 = new Ship_test(6, "AK A式輸送艦_2", "AK1",true, 100, 100, 2, 10, 100);
-        Ship_test e_fune3 = new Ship_test(7, "AK A式輸送艦_3", "AK1",true, 100, 100, 2, 10, 100);
+        Ship_test e_fune1 = new Ship_test(5, "AK A式輸送艦_1", "AK1", true, 100, 100, 2, 10, 100, "AK");
+        Ship_test e_fune2 = new Ship_test(6, "AK A式輸送艦_2", "AK1",true, 100, 100, 2, 10, 100, "AK");
+        Ship_test e_fune3 = new Ship_test(7, "AK A式輸送艦_3", "AK1",true, 100, 100, 2, 10, 100, "AK");
 
 
         ship_list.Add(fune1);

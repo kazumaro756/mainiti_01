@@ -19,14 +19,14 @@ public class ui_ship_class : MonoBehaviour
     Button btn;
  
 
-    public void Update_ui(string type,string name , int cost,MilitalyPortManager mp ,Ship_test st )
+    public void Update_ui(string type,string name , int cost,MilitalyPortManager mp ,int st )
     {
         class_type.text = type;
         class_name.text = name;
         class_cost.text = cost.ToString() + "円";
 
         //ボタンに対して設定をする。
-        btn.onClick.AddListener(() => mp.AddShiptoPort(st));
+        btn.onClick.AddListener(() => mp.CreateAndAddport(st));
 
 
     }

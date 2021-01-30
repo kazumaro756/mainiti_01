@@ -42,7 +42,7 @@ public class MilitalyPortManager : MonoBehaviour
 
 
     //グローバルな変数。艦船の通し番号。軍港で生産されたときに知ればよいのでOK。
-    public int ship_id;
+    static int ship_id;
 
     [SerializeField]
     GameObject port_ui;
@@ -61,11 +61,14 @@ public class MilitalyPortManager : MonoBehaviour
 
         //ポート画面を更新。
         port_ui.GetComponent<Port_Panel_ui_controller>().Deploy_Calsses(List_ship_class);
+        port_ui.GetComponent<Port_Panel_ui_controller>().Deploy_ship_in_pool(List_ships_in_port);
+            
+        //
 
 
         //建造。してポートにつなげる。
         //AddShiptoPort(CreateShip(ship_id, "ティルピッツ", false, List_ship_class[0]));
-        
+
 
     }
 
@@ -87,18 +90,21 @@ public class MilitalyPortManager : MonoBehaviour
         //インスタンス化する処理。
         Ship_test n_ship = new Ship_test
             (ship_id,
-            this_ship_name,
+            this_ship_name+ ship_id.ToString(),
             sc.ship_class_name,
             enemy_flg,
             sc.max_hp,
             sc.max_hp,
             sc.atk_point,
             sc.agility,
-            sc.reward_money
+            sc.reward_money,
+            sc.ship_type
             );
 
         ship_id += 1;
 
+        Debug.Log(ship_id + "だよ");
+        Debug.Log(n_ship.ship_id + "だよ");
         return n_ship;
 
     }
@@ -108,9 +114,21 @@ public class MilitalyPortManager : MonoBehaviour
     {
         List_ships_in_port.Add(st);
         Debug.Log(List_ships_in_port.Count + "隻が軍港にあります。");
+        PortShiplistUpdate();
     }
 
 
+    //作成
+    public void CreateAndAddport(int id)
+    {
+        AddShiptoPort(CreateShip("test", false, List_ship_class[id - 1]));
+
+    }
+
+    public void PortShiplistUpdate()
+    {
+        port_ui.GetComponent<Port_Panel_ui_controller>().Deploy_ship_in_pool(List_ships_in_port);
+    }
 
 
 
