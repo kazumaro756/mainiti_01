@@ -47,6 +47,9 @@ public class MilitalyPortManager : MonoBehaviour
     [SerializeField]
     GameObject port_ui;
 
+    [SerializeField]
+    GameObject RM;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -83,35 +86,56 @@ public class MilitalyPortManager : MonoBehaviour
 
 
     //個別のシップをインスタンス化する処理。実際には建造に相当する処理。
-    public Ship_test CreateShip( string this_ship_name ,bool enemy_flg ,Ship_Class sc )
+    public void CreateShip( string this_ship_name ,bool enemy_flg ,Ship_Class sc )
     {
-        //idはグローバルに連番を取ってくる仕様にしたい。
+        if (RM.GetComponent<ResourceManager>().Check_enough_money(sc.money_to_make))
+        {
+            //艦船を作るときにお金を減らす。
+            //RM.GetComponent<ResourceManager>().money -= sc.money_to_make;
+            RM.GetComponent<ResourceManager>().UseMoney(sc.money_to_make);
 
-        //インスタンス化する処理。
-        Ship_test n_ship = new Ship_test
-            (ship_id,
-            this_ship_name+ ship_id.ToString(),
-            sc.ship_class_name,
-            enemy_flg,
-            sc.max_hp,
-            sc.max_hp,
-            sc.atk_point,
-            sc.agility,
-            sc.reward_money,
-            sc.ship_type
-            );
+            //インスタンス化する処理。
+            Ship_test n_ship = new Ship_test
+                (ship_id,
+                this_ship_name + ship_id.ToString(),
+                sc.ship_class_name,
+                enemy_flg,
+                sc.max_hp,
+                sc.max_hp,
+                sc.atk_point,
+                sc.agility,
+                sc.reward_money,
+                sc.ship_type
+                );
 
-        ship_id += 1;
+            ship_id += 1;
 
-        Debug.Log(ship_id + "だよ");
-        Debug.Log(n_ship.ship_id + "だよ");
-        return n_ship;
+            Debug.Log(ship_id + "だよ");
+            Debug.Log(n_ship.ship_id + "だよ");
+
+
+            //軍港に配置。
+            List_ships_in_port.Add(n_ship);
+
+            //UI更新
+            PortShiplistUpdate();
+        }
+        else
+        {
+            //お金ないでつ。
+            Debug.Log("お金ないです");
+
+        }
+
+
+
 
     }
 
     //インスタンス化した艦船を軍港に入れる処理。
     public void AddShiptoPort(Ship_test st)
     {
+
         List_ships_in_port.Add(st);
         Debug.Log(List_ships_in_port.Count + "隻が軍港にあります。");
         PortShiplistUpdate();
@@ -121,7 +145,8 @@ public class MilitalyPortManager : MonoBehaviour
     //作成
     public void CreateAndAddport(int id)
     {
-        AddShiptoPort(CreateShip("test", false, List_ship_class[id - 1]));
+        //ここの処理はだめ。インデックスじゃなくてidを見に行く実装にしないとダメ。
+        CreateShip("test", false, List_ship_class[id - 1]);
 
     }
 

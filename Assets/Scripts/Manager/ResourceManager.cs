@@ -17,7 +17,7 @@ public class ResourceManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        money = 100;
+        money = 2000;
         //UI
         Resouce_ui_controller.GetComponent<ResourceUiController>().Update_money_text(100.ToString());
     }
@@ -37,5 +37,34 @@ public class ResourceManager : MonoBehaviour
 
     }
 
+    //お金をもっているのかを確認処理。
+    public bool Check_enough_money(int cost)
+    {
+        
+        if (cost <= money)
+        {
+            //お金を使う処理。
+            return true;
+        }
+        else
+        {
+
+            //Debug.Log("お金ないです");
+            return false;
+        }
+      
+
+    }
+
+    //
+    public void UseMoney(int cost )
+    {
+        //お金を減らす。
+        money -= cost;
+
+        //UIを更新する。
+        Resouce_ui_controller.GetComponent<ResourceUiController>().Update_money_text(money.ToString());
+
+    }
 
 }
